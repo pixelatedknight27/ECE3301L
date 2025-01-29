@@ -3,6 +3,7 @@
 #include <xc.h>
 #include <math.h>
 #include <p18f4620.h>
+#include "UART.h"
 
 #pragma config OSC = INTIO67
 #pragma config WDT = OFF
@@ -14,21 +15,6 @@ void putch(char c);
 void Init_ADC(void);
 unsigned int Get_Full_ADC(void);
 float Read_Ch_Volt(char);
-
-void Init_UART(void) // This routine is to initialize the UART
-{
-    OpenUSART(USART_TX_INT_OFF & USART_RX_INT_OFF &
-            USART_ASYNCH_MODE & USART_EIGHT_BIT & USART_CONT_RX &
-            USART_BRGH_HIGH, 25);
-    OSCCON = 0x60;
-}
-
-void putch(char c) // This routine must always go with the
-// ?Init_UART()?
-{
-    while (!TRMT);
-    TXREG = c;
-}
 
 void Init_ADC(void) {
     ADCON0 = 0x01; // select channel AN0, and turn on the ADDC subsystem

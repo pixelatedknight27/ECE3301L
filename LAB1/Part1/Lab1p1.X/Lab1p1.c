@@ -14,19 +14,6 @@ void Init_ADC(void);
 unsigned int Get_Full_ADC(void);
 void Flash_LED(unsigned int);
 
-//void init_UART()
-//{
-// OpenUSART (USART_TX_INT_OFF & USART_RX_INT_OFF &
-//USART_ASYNCH_MODE & USART_EIGHT_BIT & USART_CONT_RX &
-//USART_BRGH_HIGH, 25);
-// OSCCON = 0x60;
-//}
-void putch (char c)
-{
- while (!TRMT);
- TXREG = c;
-} 
-
 void main(void) {
     unsigned int ADC_Result; // local variable to store the result
     Init_ADC(); // initialize the A2D converter
