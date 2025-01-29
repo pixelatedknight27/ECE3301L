@@ -16,6 +16,7 @@ void Flash_LED(unsigned int);
 
 void main(void) {
     unsigned int ADC_Result; // local variable to store the result // hello
+    //branch test
     Init_ADC(); // initialize the A2D converter
     TRISB = 0x00; // make PORTB as all outputs
     while (1) {
