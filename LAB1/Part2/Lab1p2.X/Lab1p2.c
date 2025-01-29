@@ -3,57 +3,20 @@
 #include <xc.h>
 #include <math.h>
 #include <p18f4620.h>
-
 #include "UART.h"
 
 #pragma config OSC = INTIO67
 #pragma config WDT = OFF
 #pragma config LVP = OFF
 #pragma config BOREN = OFF
-// Prototype Area
 
-void Init_ADC(void);
-unsigned int Get_Full_ADC(void);
-float Read_Ch_Volt(char);
-void Init_ADC(void)
-{
- ADCON0=0x01; // select channel AN0, and turn on the ADDC subsystem
- ADCON1=0x0a; // set pins 2,3,4,5 & 7 as analog signal, VDD-VSS as ref voltage
- ADCON2=0xA9; // Set the bit conversion time (TAD) and acquisition time
+void main(void) {
+    char k;
+    float t;
+    Init_UART();
+    while (1) {
+        t = 19.909;
+        printf("\r\n\nHello World! Floating Point Print with 1 decimal place t= %6.1f", t);
+        printf("\r\nHello World! Floating Point print with 2 decimal places t= %6.2f", t);
+    }
 }
-unsigned int Get_Full_ADC(void)
-{
-int result;
- ADCON0bits.GO=1; // Start Conversion
- while(ADCON0bits.DONE==1); // Wait for conversion to be completed (DONE=0)
- result = (ADRESH * 0x100) + ADRESL; // Combine result of upper byte and lower byte into
- return result; // return the most significant 8- bits of the result.
-}
-float Read_Ch_Volt(char ch_num)
-{
- ADCON0 = ch_num * 0x4 + 1;
- int ADC_Result = Get_Full_ADC();
- float Volt = ADC_Result / 1024.0 * 5.0;
- return (Volt);
-}
-
-void main(void)
-{
- float Volt;
- Init_UART();
- Init_ADC();
- while(1)
- {
- printf ("Testing A/D pins? \r\n\n");
- Volt = Read_Ch_Volt( 0);
-printf ("Volt at AN0 is %f\r\n", Volt);
-Volt = Read_Ch_Volt( 1);
-printf ("Volt at AN1 is %f\r\n", Volt);
-Volt = Read_Ch_Volt( 2);
-printf ("Volt at AN2 is %f\r\n", Volt);
-Volt = Read_Ch_Volt( 4);
-printf ("Volt at AN4 is %f\r\n\n", Volt);
-Volt = Read_Ch_Volt( 3);
-printf ("Reference voltage at AN3 is %f\r\n\n", Volt);
- }
-} 

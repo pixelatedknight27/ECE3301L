@@ -17,13 +17,11 @@ void Flash_LED(unsigned int);
 void main(void) {
     unsigned int ADC_Result; // local variable to store the result
     Init_ADC(); // initialize the A2D converter
-//    init_UART(); 
     TRISB = 0x00; // make PORTB as all outputs
     while (1) {
         ADC_Result = Get_Full_ADC(); // call routine to measure the A2D port
         Flash_LED(ADC_Result); // call routine to flash the LED based on the delay
         // indicated by ADC_Result
-//        printf("adc result: %d\r\n", ADC_Result);
     }
 }
 
