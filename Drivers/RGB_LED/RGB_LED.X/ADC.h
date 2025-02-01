@@ -76,87 +76,23 @@ extern "C" {
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 
-#include <stdint.h>
-
-struct Pins {
-    volatile unsigned char *port;
-    volatile unsigned char *port_dir;
-    uint8_t red_pin;
-    uint8_t green_pin;
-    uint8_t blue_pin;
-};
-
-struct Color {
-    uint8_t red_lum;
-    uint8_t green_lum;
-    uint8_t blue_lum;
-    
-};
-
-struct Color_Timer{
-    uint8_t red_ctr;
-    uint8_t green_ctr;
-    uint8_t blue_ctr;
-};
-
-struct RGB_LED {
-    struct Pins pins;
-    struct Color color;
-    struct Color_Timer color_timer;
-};
-
-void RGB_LED_Init(
-        struct RGB_LED *LED,
-        volatile unsigned char *port,
-        volatile unsigned char *port_dir,
-        uint8_t red_pin,
-        uint8_t green_pin,
-        uint8_t blue_pin) {
-    
-    LED->pins.port = port;
-    LED->pins.port_dir = port_dir;
-    
-    *LED->pins.port_dir = 0x00;
-    *LED->pins.port = 0x00;
-    
-    LED->pins.red_pin = 0x01 << red_pin;
-    LED->pins.green_pin = 0x01 << green_pin;
-    LED->pins.blue_pin = 0x01 << blue_pin;
-    
-    
+void Init_ADC(void) {
+    ADCON0 = 0x01; // select channel AN0, and turn on the ADDC subsystem
+    ADCON1 = 0x0a; // set pins 2,3,4,5 & 7 as analog signal, VDD-VSS as ref voltage
+    ADCON2 = 0xA9; // Set the bit conversion time (TAD) and acquisition time
 }
 
-void RGB_LED_Set_Color(struct RGB_LED *LED, uint8_t red, uint8_t green, uint8_t blue){
-    LED->color.red_lum = red;
-    LED->color.green_lum = green;
-    LED->color.blue_lum = blue;
-    
-    LED->color_timer.red_ctr = 0;
-    LED->color_timer.green_ctr = 0;
-    LED->color_timer.blue_ctr = 0;
+unsigned int Get_Full_ADC(void) {
+    int result;
+    ADCON0bits.GO = 1; // Start Conversion
+    while (ADCON0bits.DONE == 1); // Wait for conversion to be completed (DONE=0)
+    result = (ADRESH * 0x100) + ADRESL; // Combine result of upper byte and lower byte into
+    return result; // return the most significant 8- bits of the result.
 }
 
-void RGB_LED_Update(struct RGB_LED *LED){
-    uint8_t pin_word = 0b00000000;
-    
-    if (LED->color_timer.red_ctr < LED->color.red_lum){
-        pin_word = pin_word | LED->pins.red_pin;
-    }
-    if (LED->color_timer.green_ctr < LED->color.green_lum){
-        pin_word = pin_word | LED->pins.green_pin;
-    }
-    if (LED->color_timer.blue_ctr < LED->color.blue_lum){
-        pin_word = pin_word | LED->pins.blue_pin;
-    }
-    
-//    LATx = pin_word;
-    *LED->pins.port = pin_word;
-    
-    LED->color_timer.red_ctr ++;
-    LED->color_timer.green_ctr ++;
-    LED->color_timer.blue_ctr ++;
-}
-
-void RGB_LED_Print_Status(struct RGB_LED *LED){
-    printf("RGB vals: %d %d %d\r\n", LED->color.red_lum, LED->color.green_lum,LED->color.blue_lum);
+float Read_Ch_Volt(char ch_num) {
+    ADCON0 = ch_num * 0x4 + 1;
+    int ADC_Result = Get_Full_ADC();
+    float Volt = ADC_Result;
+    return (Volt);
 }

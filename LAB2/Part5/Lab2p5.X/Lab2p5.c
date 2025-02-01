@@ -6,7 +6,6 @@
 #include <math.h>
 #include <p18f4620.h>
 
-#include "../../../Drivers/ADC.h"
 #include "../../../Drivers/UART.h"
 #include "../../../Drivers/RGB_LED/RGB_LED.h"
 
@@ -24,11 +23,10 @@
 void main(void) {
 
     Init_UART();
-    Init_ADC();
     
     //  constants
     uint8_t rgb_timer = 0;      //  initialize cycle timer
-    uint8_t rgb_speed = 64;    //  set cycle speed
+    uint8_t rgb_speed = 128;    //  set cycle speed
 
     //  rgb value initialization 
     uint8_t red = 255;
@@ -47,10 +45,7 @@ void main(void) {
     //  R: PORTB0
     //  G: PORTB1
     //  B: PORTB2
-    RGB_LED_Init(&led, &LATB, &TRISB, 0, 1, 2);
-    
-    //  Set brightness of LED using basic predefined colors
-    RGB_LED_Set_Color_Basic(&led, OFF);
+    RGB_LED_Init(&led, &PORTC, &TRISC, 0, 1, 2);
     
     //  Set brightness of LED (0-255)
     RGB_LED_Set_Color(&led, red, green, blue);
@@ -82,16 +77,8 @@ void main(void) {
                 }
             }
             
-            //  cast adc reading to a value between 0 and 255
-            uint8_t adc_reading = 255 * (1 - Read_Ch_Volt(0)/1024);
-            
-            //  keep away div by 0 errors
-            if (adc_reading == 0){
-                adc_reading = 1;
-            }
-            
             //  scale rgb by adc reading
-            RGB_LED_Set_Color(&led, red / adc_reading, green / adc_reading, blue / adc_reading);
+            RGB_LED_Set_Color(&led, red, green, blue);
             
             //  RGB_LED_Print_Status(&led1); //  LED debug print - baud 19200
             
