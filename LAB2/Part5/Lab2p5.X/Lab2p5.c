@@ -49,12 +49,17 @@ void main(void) {
     
     //  Set brightness of LED (0-255)
     RGB_LED_Set_Color(&led, red, green, blue);
+    
+    TRISA = 0b00001111;
+    ADCON1 = 0x0F;
 
     while (1) {
         
         //  cycle through intensities
         
         if(rgb_timer == rgb_speed){
+            uint8_t in_sw = PORTA;
+            
             if(phase == 0){
                 red--;
                 green++;
@@ -78,9 +83,11 @@ void main(void) {
             }
             
             //  scale rgb by adc reading
-            RGB_LED_Set_Color(&led, red, green, blue);
+            RGB_LED_Set_Color(&led, red/(16-in_sw), green/(16-in_sw), blue/(16-in_sw));
             
-            //  RGB_LED_Print_Status(&led1); //  LED debug print - baud 19200
+//            RGB_LED_Print_Status(&led); //  LED debug print - baud 19200
+            
+//            printf("%d\r\n", in_sw);
             
             rgb_timer = 0;
         }
