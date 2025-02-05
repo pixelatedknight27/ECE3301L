@@ -138,13 +138,13 @@ void RGB_LED_Set_Color(struct RGB_LED *LED, uint8_t red, uint8_t green, uint8_t 
 void RGB_LED_Update(struct RGB_LED *LED) {
     uint8_t pin_word = 0b00000000;
 
-    if (LED->color_timer.red_ctr < LED->color.red_lum) {
+    if (LED->color_timer.red_ctr <= LED->color.red_lum) {
         pin_word = pin_word | LED->pins.red_pin;
     }
-    if (LED->color_timer.green_ctr < LED->color.green_lum) {
+    if (LED->color_timer.green_ctr <= LED->color.green_lum) {
         pin_word = pin_word | LED->pins.green_pin;
     }
-    if (LED->color_timer.blue_ctr < LED->color.blue_lum) {
+    if (LED->color_timer.blue_ctr <= LED->color.blue_lum) {
         pin_word = pin_word | LED->pins.blue_pin;
     }
 
