@@ -6,17 +6,17 @@
 #include <p18f4620.h>
 #include <stdint.h>
 
-  #pragma config OSC = INTIO67
-//#pragma config OSC = HS
+#pragma config OSC = INTIO67
 #pragma config WDT = OFF
 #pragma config LVP = OFF
 #pragma config BOREN = OFF
 
 #include "../../../Drivers/RGB_LED/RGB_LED.h"
 
-void main(void) {
+void main(void)
+{
     
-    uint8_t in_sw;
+uint8_t in_sw;
     
     TRISA = 0b00001111;
     ADCON1 = 0x0F;
