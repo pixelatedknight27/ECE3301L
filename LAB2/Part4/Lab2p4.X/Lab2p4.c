@@ -7,27 +7,26 @@
 
 #include "../../../Drivers/RGB_LED/RGB_LED.h"
 
-#define delay 17000
+#define delay 17815
 
 #pragma config OSC = INTIO67
-// #pragma config OSC = HS
 #pragma config WDT = OFF
 #pragma config LVP = OFF
 #pragma config BOREN = OFF
 
-// Prototype Area
+//  Prototype Area
 void Delay_One_Sec();
 
 void main(void)
 {
 
-    struct RGB_LED led0;
+struct RGB_LED led0;
     RGB_LED_Init(&led0, &LATC, &TRISC, 0, 1, 2);
 
-    struct RGB_LED led1;
+struct RGB_LED led1;
     RGB_LED_Init(&led1, &LATD, &TRISD, 3, 4, 5);
 
-    // enumeration type in RGB_LED comes in handy here.
+    //  enumeration type in RGB_LED.h comes in handy here.
     RGB_LED_Colors led0_colors[8] = {PURPLE, YELLOW, BLUE, CYAN, RED, GREEN, WHITE, OFF};
     RGB_LED_Colors led1_colors[8] = {CYAN, YELLOW, WHITE, OFF, GREEN, PURPLE, BLUE, RED};
 

@@ -168,7 +168,7 @@ void RGB_LED_Update(struct RGB_LED *LED)
 
     if (LED->color_timer.red_ctr <= LED->color.red_lum)
     {
-        // bitwise or with the pin number to add the pin to the word
+        //  bitwise or with the pin number to add the pin to the word
         pin_word = pin_word | LED->pins.red_pin;
     }
     if (LED->color_timer.green_ctr <= LED->color.green_lum)
@@ -180,8 +180,7 @@ void RGB_LED_Update(struct RGB_LED *LED)
         pin_word = pin_word | LED->pins.blue_pin;
     }
 
-    //    LATx = pin_word;
-    *LED->pins.port = pin_word;
+    *LED->pins.port = pin_word;  //  PORTx = pin_word;
 
     LED->color_timer.red_ctr++;
     LED->color_timer.green_ctr++;
@@ -201,20 +200,20 @@ typedef enum
 } RGB_LED_Colors;
 
 /*************************************************************/
-/* Allows the programmer to pass in preset colors.           */
-/* Can pass in members of the above enum type or raw         */
-/* integers between 0 and 7. The reason I don’t directly     */
-/* change the pin here and instead do it indirectly is to    */
-/* maintain consistency with how RGB_LED_Update() is         */
-/* handled. There should only be one Update and it’s members */
-/* should always be void.                                    */
+/*  Allows the programmer to pass in preset colors.          */
+/*  Can pass in members of the above enum type or raw        */
+/*  integers between 0 and 7. The reason I don’t directly    */
+/*  change the pin here and instead do it indirectly is to   */
+/*  maintain consistency with how RGB_LED_Update() is        */
+/*  handled. There should only be one Update and it’s        */
+/*   members should always be void.                          */
 /*************************************************************/
 void RGB_LED_Set_Color_Basic(struct RGB_LED *LED, RGB_LED_Colors color)
 {
 
     if (color == OFF)
     {
-        // the new_color struct is copied into LED->color
+        //  the new_color struct is copied into LED->color
         struct Color new_color = {0, 0, 0};
         LED->color = new_color;
     }
@@ -265,9 +264,8 @@ void RGB_LED_Set_Color_Basic(struct RGB_LED *LED, RGB_LED_Colors color)
 }
 
 /*************************************************************/
-/* Debug                                                     */
+/*  Debug                                                    */
 /*************************************************************/
-
 void RGB_LED_Print_Status(struct RGB_LED *LED)
 {
     printf("RGB vals: %d %d %d\r\n", LED->color.red_lum, LED->color.green_lum, LED->color.blue_lum);

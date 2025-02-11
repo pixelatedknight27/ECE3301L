@@ -15,15 +15,15 @@ void main(void)
     
 char in_sw;
     
-    TRISB = 0b00000000;
-    TRISA = 0b00001111;
-    ADCON1 = 0x0F;
+    TRISB = 0b00000000;        //  set all pins of PORTB to output
+    TRISA = 0b00001111;        //  set bottom 4 pins of PORTA to input
+    ADCON1 = 0x0F;             //  disable analog ADC
     
     
     while (1)
     {
-        in_sw = PORTA;
-        in_sw = in_sw & 0x0F;
-        PORTB = in_sw;
+        in_sw = PORTA;         //  read PORTA
+        in_sw = in_sw & 0x0F;  //  mask out upper 4 bits
+        PORTB = in_sw;         //  write result to PORTB
     }
 } 

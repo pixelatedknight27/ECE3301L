@@ -14,7 +14,7 @@
 #pragma config LVP = OFF
 #pragma config BOREN = OFF
 
-// Prototype Area
+//  Prototype Area
 void Delay_One_Sec();
 
 void main(void)
@@ -28,9 +28,9 @@ void main(void)
         for (int i = 0; i < 8; i++)
         {
 
-            // This works because iterating through 
-            // an enumeration and incrementing an integer
-            // are the same thing to the compiler.
+            //  This works because iterating through 
+            //  an enumeration and incrementing an integer
+            //  are the same thing to the compiler.
             RGB_LED_Set_Color_Basic(&led, i);
             RGB_LED_Update(&led);
 
