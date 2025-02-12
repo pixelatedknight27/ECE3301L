@@ -8,7 +8,7 @@
     
 ; Constant declarations
 Delay1 equ 0xFF
-Delay2 equ 0XFF
+Delay2 equ 0XF5
 Counter_L equ 0x20
 Counter_H equ 0x21
  
