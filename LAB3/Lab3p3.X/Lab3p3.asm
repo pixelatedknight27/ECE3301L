@@ -12,7 +12,7 @@ START:
     MOVLW 0x0F	    ;
     MOVWF ADCON1    ;
     MOVLW 0xFF	    ;
-    MOVWF TRISC	    ;
+    MOVWF TRISA	    ;
     MOVLW 0x00	    ;
     MOVWF TRISC	    ;
     
