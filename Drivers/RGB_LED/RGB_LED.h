@@ -164,23 +164,25 @@ void RGB_LED_Set_Color(struct RGB_LED *LED, uint8_t red, uint8_t green, uint8_t 
 /*************************************************************/
 void RGB_LED_Update(struct RGB_LED *LED)
 {
-    uint8_t pin_word = 0b00000000;
+    uint8_t pin_pos = ~(LED->pins.red_pin | LED->pins.green_pin | LED->pins.blue_pin);
+    
+    uint8_t pin_word = *LED->pins.port & pin_pos;
 
-    if (LED->color_timer.red_ctr <= LED->color.red_lum)
+    if (LED->color_timer.red_ctr <= LED->color.red_lum & (LED->color.red_lum != 0))
     {
         //  bitwise or with the pin number to add the pin to the word
         pin_word = pin_word | LED->pins.red_pin;
     }
-    if (LED->color_timer.green_ctr <= LED->color.green_lum)
+    if (LED->color_timer.green_ctr <= LED->color.green_lum & (LED->color.green_lum != 0))
     {
         pin_word = pin_word | LED->pins.green_pin;
     }
-    if (LED->color_timer.blue_ctr <= LED->color.blue_lum)
+    if (LED->color_timer.blue_ctr <= LED->color.blue_lum & (LED->color.blue_lum != 0))
     {
         pin_word = pin_word | LED->pins.blue_pin;
     }
-
-    *LED->pins.port = pin_word;  //  PORTx = pin_word;
+    
+    *LED->pins.port = pin_word;
 
     LED->color_timer.red_ctr++;
     LED->color_timer.green_ctr++;
