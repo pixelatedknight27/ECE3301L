@@ -18,7 +18,7 @@ START:
     
 MAIN_LOOP:	    ;
     MOVF PORTA, W   ;
-    ANDLW 0x0F	    ;
+    ANDLW 0x07	    ;
     MOVWF PORTB	    ;
     GOTO MAIN_LOOP  ;
 END
