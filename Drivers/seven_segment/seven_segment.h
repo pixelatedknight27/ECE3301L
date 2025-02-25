@@ -76,20 +76,13 @@ extern "C" {
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 
-#include <usart.h>
+#include <stdint.h>
 
-void Init_UART(void) // This routine is to initialize the UART
-{
-    OpenUSART(USART_TX_INT_OFF & USART_RX_INT_OFF &
-            USART_ASYNCH_MODE & USART_EIGHT_BIT & USART_CONT_RX &
-            USART_BRGH_HIGH, 25);
-    OSCCON = 0x60;
-}
+typedef struct seven_seg{
+    volatile unsigned char *port;
+    volatile unsigned char *port_dir;
+    uint8_t num;
+};
 
-void putch(char c) // This routine must always go with the
-// ?Init_UART()?
-{
-    while (!TRMT);
-    TXREG = c;
-}
-
+void seven_seg_init(struct seven_seg *seven_seg, volatile unsigned char *port, volatile unsigned char *port_dir);
+void seven_seg_set_num(struct seven_seg *seven_seg, uint8_t value);
