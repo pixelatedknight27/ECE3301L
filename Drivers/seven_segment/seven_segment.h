@@ -82,6 +82,7 @@ typedef struct seven_seg{
     volatile unsigned char *port;
     volatile unsigned char *port_dir;
     uint8_t num;
+    uint8_t *num_arr;
 };
 
 void seven_seg_init(struct seven_seg *seven_seg, volatile unsigned char *port, volatile unsigned char *port_dir);

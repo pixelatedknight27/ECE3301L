@@ -91,6 +91,9 @@ unsigned int Get_Full_ADC(void) {
 }
 
 float Read_Ch_Volt(char ch_num) {
+    
+    // returns a float between 0 and 1024
+    
     ADCON0 = ch_num * 0x4 + 1;
     int ADC_Result = Get_Full_ADC();
     float Volt = ADC_Result;
