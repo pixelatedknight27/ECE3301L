@@ -61,13 +61,14 @@ void main(void) {
         float adc_reading_0 = 5 * Read_Ch_Volt(0)/1024;
         float adc_reading_1 = 5 * Read_Ch_Volt(1)/1024;
        
-        float tmp_sens_reading = (adc_reading_0 - 1.035) / (-0.0055);   
+        float tmp_sens_reading = (adc_reading_0 - 1.035) / (-0.0055); 
+        float light_sens_reading = adc_reading_1;
         
         tmp_sens_reading = tmp_sens_reading * 1.8 + 32;
         
         uint8_t tmp_sens_trunc = (uint8_t)tmp_sens_reading;
             
-        printf("voltage: %f\r\ntemp: %f\r\ntemp trunc: %d\r\n\r\n", adc_reading_0, tmp_sens_reading, tmp_sens_trunc);
+        printf("voltage: %f\r\ntemp: %f\r\ntemp trunc: %d\r\nlight voltage: %f\r\n\r\n", adc_reading_0, tmp_sens_reading, tmp_sens_trunc, light_sens_reading);
             
 //        for(int i = 0; i <= 7; i++){
 //            seven_seg_set_num(&seven_seg0, i);

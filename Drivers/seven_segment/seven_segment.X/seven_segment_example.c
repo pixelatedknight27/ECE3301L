@@ -19,7 +19,8 @@ int coutner1;
 
 void main(void) {
     
-    seven_seg_init(&seven_seg0, &PORTB, &TRISB);
+    seven_seg_init(&seven_seg0, &PORTD, &TRISD);
+    seven_seg_set_num(&seven_seg0, 3);
     
     while (1) {
         
