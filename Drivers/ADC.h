@@ -78,7 +78,7 @@ extern "C" {
 
 void Init_ADC(void) {
     ADCON0 = 0x01; // select channel AN0, and turn on the ADDC subsystem
-    ADCON1 = 0x0a; // set pins 2,3,4,5 & 7 as analog signal, VDD-VSS as ref voltage
+    ADCON1 = 0x1b; // set pins 2,3,4,5 & 7 as analog signal, VDD-VSS as ref voltage
     ADCON2 = 0xA9; // Set the bit conversion time (TAD) and acquisition time
 }
 
