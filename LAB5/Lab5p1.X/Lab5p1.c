@@ -57,8 +57,8 @@ void main(void) {
     while (1) {
 
         //  cast adc reading to a value between 0 and 255
-        float adc_reading_0 = 5 * Read_Ch_Volt(0) / 1024;
-        float adc_reading_1 = 5 * Read_Ch_Volt(1) / 1024;
+        float adc_reading_0 = 4.0 * Read_Ch_Volt(0)/1000.0;
+        float adc_reading_1 = 4.0 * Read_Ch_Volt(1)/1000.0;
 
         float tmp_sens_reading = (adc_reading_0 - 1.035) / (-0.0055);
         float light_sens_reading = adc_reading_1;
@@ -105,7 +105,7 @@ void main(void) {
         } else if (tmp_sens_reading > 77 && tmp_sens_reading < 80) {
             RGB_LED_Set_Color_Basic(&led1, CYAN);
         } else if (tmp_sens_reading > 80) {
-            RGB_LED_Set_Color_Basic(&led1, RED);
+            RGB_LED_Set_Color_Basic(&led1, WHITE);
         }
         
         //D3 LED Color Ranges
