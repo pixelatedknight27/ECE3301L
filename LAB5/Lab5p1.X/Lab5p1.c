@@ -53,6 +53,9 @@ void main(void) {
     RGB_LED_Update(&led0);
     RGB_LED_Update(&led1);
     RGB_LED_Update(&led2);
+    
+    seven_seg_set_num(&seven_seg0, 0);
+    seven_seg_set_num(&seven_seg1, 0);
 
     while (1) {
 
@@ -69,23 +72,16 @@ void main(void) {
 
         printf("voltage: %f\r\ntemp: %f\r\ntemp trunc: %d\r\nlight voltage: %f\r\n\r\n", adc_reading_0, tmp_sens_reading, tmp_sens_trunc, light_sens_reading);
 
-        //        for(int i = 0; i <= 7; i++){
-        //            seven_seg_set_num(&seven_seg0, i);
-        //            RGB_LED_Set_Color_Basic(&led0, i);
-        //            RGB_LED_Update(&led0);
-        //            
-        //            for(int j = 32767; j > 0; j--);
-        //            
-        //        }
-
         uint8_t high_num = (tmp_sens_trunc % 100) / 10;
         uint8_t low_num = tmp_sens_trunc % 10;
 
-        //        uint8_t led_num = (float)(min(max(tmp_sens_trunc + 6, 32), 80) - 32) / 48 * 7;
         uint8_t led_num = min(max(high_num, 0), 7);
 
         seven_seg_set_num(&seven_seg0, high_num);
         seven_seg_set_num(&seven_seg1, low_num);
+        
+//        seven_seg_set_num(&seven_seg0, 0);
+//        seven_seg_set_num(&seven_seg1, 0);
 
         RGB_LED_Set_Color_Basic(&led0, led_num);
 
