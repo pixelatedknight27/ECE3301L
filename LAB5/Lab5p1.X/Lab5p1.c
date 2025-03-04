@@ -89,7 +89,7 @@ void main(void) {
 
         RGB_LED_Set_Color_Basic(&led0, led_num);
 
-
+        //D2 LED Color Ranges
         if (tmp_sens_reading < 32) {
             RGB_LED_Set_Color_Basic(&led1, OFF);
         } else if (tmp_sens_reading > 32 && tmp_sens_reading < 42) {
@@ -108,6 +108,7 @@ void main(void) {
             RGB_LED_Set_Color_Basic(&led1, RED);
         }
         
+        //D3 LED Color Ranges
         if (light_sens_reading < 2.6) {
             RGB_LED_Set_Color_Basic(&led2, WHITE);
         } else if (light_sens_reading >= 2.6 && light_sens_reading < 2.9) {
