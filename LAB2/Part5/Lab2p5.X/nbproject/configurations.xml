@@ -19,7 +19,13 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>C:/Users/maxgr/Documents/MPLABXProjects/ECE3301L/Drivers/RGB_LED/RGB_LED.c</itemPath>
+    <itemPath>C:/Users/maxgr/Documents/MPLABXProjects/ECE3301L/Drivers/UART/UART.c</itemPath>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>C:\Users\maxgr\Documents\MPLABXProjects\ECE3301L\Drivers\RGB_LED</Elem>
+    <Elem>C:\Users\maxgr\Documents\MPLABXProjects\ECE3301L\Drivers\UART</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="default" type="2">

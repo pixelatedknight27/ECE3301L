@@ -12,8 +12,8 @@
 #include <math.h>
 #include <p18f4620.h>
 
-#include "../../Drivers/ADC.h"
-#include "../../Drivers/UART.h"
+#include "../../Drivers/ADC/ADC.h"
+#include "../../Drivers/UART/UART.h"
 #include "../../Drivers/RGB_LED/RGB_LED.h"
 #include "../../Drivers/seven_segment/seven_segment.h"
 
