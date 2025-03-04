@@ -59,9 +59,8 @@ void main(void) {
 
     while (1) {
 
-        //  cast adc reading to a value between 0 and 255
-        float adc_reading_0 = 4.0 * Read_Ch_Volt(0)/1000.0;
-        float adc_reading_1 = 4.0 * Read_Ch_Volt(1)/1000.0;
+        float adc_reading_0 = Read_Ch_Volt_Converted(0);
+        float adc_reading_1 = Read_Ch_Volt_Converted(1);
 
         float tmp_sens_reading = (adc_reading_0 - 1.035) / (-0.0055);
         float light_sens_reading = adc_reading_1;
@@ -79,9 +78,6 @@ void main(void) {
 
         seven_seg_set_num(&seven_seg0, high_num);
         seven_seg_set_num(&seven_seg1, low_num);
-        
-//        seven_seg_set_num(&seven_seg0, 0);
-//        seven_seg_set_num(&seven_seg1, 0);
 
         RGB_LED_Set_Color_Basic(&led0, led_num);
 

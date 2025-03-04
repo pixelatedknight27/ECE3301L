@@ -106,6 +106,6 @@ float Read_Ch_Volt_Converted(char ch_num) {
     
     ADCON0 = ch_num * 0x4 + 1;
     int ADC_Result = Get_Full_ADC();
-    float Volt = 4 / 1000 * ADC_Result;
+    float Volt = 4.0 * ADC_Result / 1000.0;
     return (Volt);
 }
