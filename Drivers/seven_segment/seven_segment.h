@@ -86,4 +86,4 @@ typedef struct seven_seg{
 };
 
 void seven_seg_init(struct seven_seg *seven_seg, volatile unsigned char *port, volatile unsigned char *port_dir);
-void seven_seg_set_num(struct seven_seg *seven_seg, uint8_t value);
+void seven_seg_set_num(struct seven_seg *seven_seg, uint8_t value, uint8_t dp);

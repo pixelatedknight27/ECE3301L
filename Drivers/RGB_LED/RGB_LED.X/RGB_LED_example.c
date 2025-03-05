@@ -9,11 +9,12 @@
 #include "../../../Drivers/UART/UART.h"
 #include "../../../Drivers/RGB_LED/RGB_LED.h"
 
-  #pragma config OSC = INTIO67
+
 
 //  High speed clock rate for GPIO PWM bit bang.
 //  Use COM terminal speed of 19200.
-//#pragma config OSC = HS     
+//#pragma config OSC = HS
+#pragma config OSC = INTIO67
 #pragma config WDT = OFF
 #pragma config LVP = OFF
 #pragma config BOREN = OFF

@@ -25,14 +25,14 @@ void seven_seg_init(struct seven_seg *seven_seg, volatile unsigned char *port, v
     seven_seg->num_arr = num_arr;
     
 }
-void seven_seg_set_num(struct seven_seg *seven_seg, uint8_t value){
+void seven_seg_set_num(struct seven_seg *seven_seg, uint8_t value, uint8_t dp){
 
     if(value <= 9){
         
-        *seven_seg->port = seven_seg->num_arr[value];
+        *seven_seg->port = seven_seg->num_arr[value] | dp << 7;
     }
     else{
-        *seven_seg->port = seven_seg->num_arr[10];
+        *seven_seg->port = seven_seg->num_arr[10] | dp << 7;
     }
 //    switch(value){
 //        case 0:
