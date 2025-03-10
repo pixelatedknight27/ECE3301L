@@ -62,9 +62,9 @@ void main(void) {
     PORTBbits.RB7 = 0;
 
     while (1) {
-        float adc_reading_0 = Read_Ch_Volt_Converted(4);
+        float adc_reading_0 = Read_Ch_Volt_Converted(1);
 
-        float r_value = adc_reading_0 / (4.096 - adc_reading_0) * 20000 / 1000;
+        float r_value = adc_reading_0 / (4.096 - adc_reading_0) * 200 / 1000;
 
 
 
