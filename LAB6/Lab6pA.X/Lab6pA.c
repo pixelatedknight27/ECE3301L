@@ -59,12 +59,12 @@ void main(void) {
         
         uint8_t adc_reading_trunc_0 = (uint8_t) (adc_reading_0 * 10);
 
-        printf("voltage: %f\r\n", adc_reading_0 / 10);
+        printf("voltage: %f\r\n", adc_reading_0);
 
         uint8_t high_num = (adc_reading_trunc_0 % 100) / 10;
         uint8_t low_num = adc_reading_trunc_0 % 10;
         
-        seven_seg_set_num(&seven_seg0, high_num, 1);
+        seven_seg_set_num(&seven_seg0, high_num, 0);
         seven_seg_set_num(&seven_seg1, low_num, 1);
     }
     

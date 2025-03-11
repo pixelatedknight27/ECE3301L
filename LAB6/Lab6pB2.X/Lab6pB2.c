@@ -1,5 +1,5 @@
 /*
- * File:   Lab6pB1.c
+ * File:   Lab6pB2.c
  * Author: maxgr
  *
  * Created on March 4, 2025, 5:51 AM
@@ -61,10 +61,9 @@ void main(void) {
     PORTBbits.RB7 = 0;
 
     while (1) {
-        
-        float adc_reading_0 = Read_Ch_Volt_Converted(1);
+        float adc_reading_0 = Read_Ch_Volt_Converted(3);
 
-        float r_value = adc_reading_0 / (4.096 - adc_reading_0) * 200 / 1000;
+        float r_value = adc_reading_0 / (4.096 - adc_reading_0) * 20000 / 1000;
         
         if(r_value > 99){
             r_value = 99;
