@@ -54,8 +54,8 @@ void main(void) {
     RGB_LED_Update(&led1);
     RGB_LED_Update(&led2);
     
-    seven_seg_set_num(&seven_seg0, 0);
-    seven_seg_set_num(&seven_seg1, 0);
+    seven_seg_set_num(&seven_seg0, 0, 1);
+    seven_seg_set_num(&seven_seg1, 0, 1);
 
     while (1) {
 
@@ -76,8 +76,8 @@ void main(void) {
 
         uint8_t led_num = min(max(high_num, 0), 7);
 
-        seven_seg_set_num(&seven_seg0, high_num);
-        seven_seg_set_num(&seven_seg1, low_num);
+        seven_seg_set_num(&seven_seg0, high_num, 1);
+        seven_seg_set_num(&seven_seg1, low_num, 1);
 
         RGB_LED_Set_Color_Basic(&led0, led_num);
 

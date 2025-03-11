@@ -20,15 +20,18 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
     <itemPath>../../Drivers/seven_segment/seven_segment.c</itemPath>
-    <itemPath>C:/Users/maxgr/Documents/MPLABXProjects/ECE3301L/Drivers/RGB_LED/RGB_LED.c</itemPath>
-    <itemPath>C:/Users/maxgr/Documents/MPLABXProjects/ECE3301L/Drivers/UART/UART.c</itemPath>
-    <itemPath>C:/Users/maxgr/Documents/MPLABXProjects/ECE3301L/Drivers/ADC/ADC.c</itemPath>
+    <itemPath>../../Drivers/UART/UART.c</itemPath>
+    <itemPath>../../Drivers/ADC/ADC.c</itemPath>
+    <itemPath>../../Drivers/RGB_LED/RGB_LED.c</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>../../Drivers/seven_segment</Elem>
     <Elem>C:\Users\maxgr\Documents\MPLABXProjects\ECE3301L\Drivers\RGB_LED</Elem>
     <Elem>C:\Users\maxgr\Documents\MPLABXProjects\ECE3301L\Drivers\UART</Elem>
     <Elem>C:\Users\maxgr\Documents\MPLABXProjects\ECE3301L\Drivers\ADC</Elem>
+    <Elem>../../Drivers/UART</Elem>
+    <Elem>../../Drivers/ADC</Elem>
+    <Elem>../../Drivers/RGB_LED</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
