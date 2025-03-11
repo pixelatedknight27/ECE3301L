@@ -1,38 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
-    <logicalFolder name="Drivers" displayName="Drivers" projectFiles="true">
-      <logicalFolder name="ADC" displayName="ADC" projectFiles="true">
-        <itemPath>../../Drivers/ADC/ADC.c</itemPath>
-        <itemPath>../../Drivers/ADC/ADC.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="Buzzer" displayName="Buzzer" projectFiles="true">
-        <itemPath>../../Drivers/Buzzer/Buzzer.c</itemPath>
-        <itemPath>../../Drivers/Buzzer/Buzzer.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="RGB_LED" displayName="RGB_LED" projectFiles="true">
-        <logicalFolder name="RGB_LED.X" displayName="RGB_LED.X" projectFiles="true">
-          <itemPath>../../Drivers/RGB_LED/RGB_LED.X/RGB_LED_example.c</itemPath>
-        </logicalFolder>
-        <itemPath>../../Drivers/RGB_LED/RGB_LED.c</itemPath>
-        <itemPath>../../Drivers/RGB_LED/RGB_LED.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="seven_segment"
-                     displayName="seven_segment"
-                     projectFiles="true">
-        <logicalFolder name="seven_segment.X"
-                       displayName="seven_segment.X"
-                       projectFiles="true">
-          <itemPath>../../Drivers/seven_segment/seven_segment.X/seven_segment_example.c</itemPath>
-        </logicalFolder>
-        <itemPath>../../Drivers/seven_segment/seven_segment.c</itemPath>
-        <itemPath>../../Drivers/seven_segment/seven_segment.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="UART" displayName="UART" projectFiles="true">
-        <itemPath>../../Drivers/UART/UART.c</itemPath>
-        <itemPath>../../Drivers/UART/UART.h</itemPath>
-      </logicalFolder>
-    </logicalFolder>
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
@@ -92,14 +60,6 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="../../Drivers/RGB_LED/RGB_LED.X/RGB_LED_example.c"
-            ex="true"
-            overriding="false">
-      </item>
-      <item path="../../Drivers/seven_segment/seven_segment.X/seven_segment_example.c"
-            ex="true"
-            overriding="false">
-      </item>
       <HI-TECH-COMP>
         <property key="asmlist" value="true"/>
         <property key="define-macros" value=""/>
