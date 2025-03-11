@@ -29,7 +29,7 @@ float Read_Ch_Volt_Converted(char ch_num) {
     // returns a float between 0 and 1023
     
     ADCON0 = ch_num * 0x4 + 1;
-    int ADC_Result = Get_Full_ADC();
+    float ADC_Result = Get_Full_ADC();
 //    float Volt = 4.0 * ADC_Result / 1000.0;
     float Volt = 5 * ADC_Result / 1024;
     return (Volt);
