@@ -1,8 +1,8 @@
 #include "ADC.h"
 
-void Init_ADC(void) {
+void Init_ADC(int ch_sel) {
     ADCON0 = 0x01; // select channel AN0, and turn on the ADDC subsystem
-    ADCON1 = 0x1b; // set pins 2,3,4,5 & 7 as analog signal, VDD-VSS as ref voltage
+    ADCON1 = ch_sel; // 0x1b = set pins 2,3,4,5 & 7 as analog signal, VDD-VSS as ref voltage
     ADCON2 = 0xA9; // Set the bit conversion time (TAD) and acquisition time
 }
 
@@ -30,6 +30,7 @@ float Read_Ch_Volt_Converted(char ch_num) {
     
     ADCON0 = ch_num * 0x4 + 1;
     int ADC_Result = Get_Full_ADC();
-    float Volt = 4.0 * ADC_Result / 1000.0;
+//    float Volt = 4.0 * ADC_Result / 1000.0;
+    float Volt = 5 * ADC_Result / 1024;
     return (Volt);
 }

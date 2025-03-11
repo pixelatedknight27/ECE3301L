@@ -42,7 +42,7 @@ struct RGB_LED led0, led1;
 void main(void) {
     TRISB = 0x00;
 
-    Init_ADC();
+    Init_ADC(0x1b);
 
     Init_UART();
 
@@ -89,8 +89,8 @@ void main(void) {
         uint8_t high_num = (r_value_trunc % 100) / 10;
         uint8_t low_num = (r_value_trunc % 10);
 
-        seven_seg_set_num(&seven_seg0, high_num, dp);
-        seven_seg_set_num(&seven_seg1, low_num, 1);
+        seven_seg_set_num_dp(&seven_seg0, high_num, dp);
+        seven_seg_set_num_dp(&seven_seg1, low_num, 1);
         
         uint8_t led_num = (uint8_t) (r_value / 10);
         

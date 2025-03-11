@@ -28,8 +28,8 @@
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef SEVEN_SEG_H
-#define	SEVEN_SEG_H
+#ifndef BUZZER_H
+#define	BUZZER_H
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
@@ -76,15 +76,7 @@ extern "C" {
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 
-#include <stdint.h>
+void Activate_Buzzer();
 
-typedef struct seven_seg{
-    volatile unsigned char *port;
-    volatile unsigned char *port_dir;
-    uint8_t num;
-    uint8_t *num_arr;
-};
+void Deactivate_Buzzer();
 
-void seven_seg_init(struct seven_seg *seven_seg, volatile unsigned char *port, volatile unsigned char *port_dir);
-void seven_seg_set_num(struct seven_seg *seven_seg, uint8_t value);
-void seven_seg_set_num_dp(struct seven_seg *seven_seg, uint8_t value, uint8_t dp);

@@ -28,8 +28,8 @@
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef XC_HEADER_TEMPLATE_H
-#define	XC_HEADER_TEMPLATE_H
+#ifndef ADC_H
+#define	ADC_H
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
@@ -76,7 +76,7 @@ extern "C" {
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 
-void Init_ADC(void);
+void Init_ADC(int ch_sel);
 
 unsigned int Get_Full_ADC(void);
 
