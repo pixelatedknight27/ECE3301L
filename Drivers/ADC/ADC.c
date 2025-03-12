@@ -26,7 +26,7 @@ float Read_Ch_Volt(char ch_num) {
 
 float Read_Ch_Volt_Converted(char ch_num) {
     
-    // returns a float between 0 and 1023
+    // returns a voltage between 0 and 5
     
     ADCON0 = ch_num * 0x4 + 1;
     float ADC_Result = Get_Full_ADC();

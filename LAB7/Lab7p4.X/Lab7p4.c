@@ -4,7 +4,9 @@
 #include <xc.h>
 #include <math.h>
 #include <p18f4620.h>
-
+#include "../../Drivers/Buzzer/Buzzer.h"
+#include "../../Drivers/ADC/ADC.h"
+#include "../../Drivers/seven_segment/seven_segment.h"
 #pragma config OSC = INTIO67
 #pragma config WDT = OFF
 #pragma config LVP = OFF
@@ -23,6 +25,7 @@
 #define NS_GREEN PORTAbits.RA2
 
 #define SEC_LED PORTEbits.RE2
+#define MODE_LED PORTEbits.RE1
 
 #define OFF 0
 #define RED 1
@@ -30,13 +33,16 @@
 #define YELLOW 3
 
 // Prototype Area
-void Init_ADC(void);
-unsigned int get_full_ADC(void);
+
 void Init_UART(void);
 void putch(char c);
 float Read_Ch_Volt(char);
-void Set_ADCON0(char AN_pin);
+
 void Print(int v, int F, int photo);
+void Wait_One_Second_With_Beep();
+
+struct seven_seg seven_seg0;
+struct seven_seg seven_seg1;
 
 
 void Wait_N_Seconds(char seconds);
@@ -48,39 +54,70 @@ void Set_NSLT(char color);
 void Set_EW(char color);
 void Set_EWLT(char color);
 
-void PED_Control( char Direction, char Num_Sec);
+void PED_Control(char Direction, char Num_Sec);
+
+char LED_7seg[10] = {0x01, 0x4F, 0x12, 0x06, 0x4C, 0x24, 0x20, 0x0F, 0x00, 0x0C};
 
 void main(void) {
-    
+    Init_ADC(0x0F);
     Init_UART();
 
     TRISA = 0xF9;
     ADCON1 = 0x0E;
     OSCCON = 0x70;
-
     TRISB = 0x00;
     TRISC = 0x00;
     TRISD = 0x00;
     TRISE = 0x00;
+    seven_seg_init(&seven_seg0, &PORTB, &TRISB);
+    seven_seg_init(&seven_seg1, &PORTD, &TRISD);
     while (1) {
-        
-
-        char LED_7seg[10] = {0x01, 0x4F, 0x12, 0x06, 0x4C, 0x24, 0x20, 0x0F, 0x00, 0x0C};
 
 
-        for (int i = 0; i < 4; i++) {
-            Set_NS(i); // Set color for North-South direction
-            Set_NSLT(i); // Set color for North-South Left-Turn direction
-            Set_EW(i); // Set color for East-West direction
-            Set_EWLT(i); // Set color for East-West Left-Turn direction
-            Wait_N_Seconds(1); // call Wait-N-Second routine to wait for 1 second
-        }
+        PED_Control(0, 8); // Set direction 0 and do for 8 seconds
+        PED_Control(1, 6); // Set direction 1 for 6 seconds 
+
+
+
 
     }
 }
-void PED_Control( char Direction, char Num_Sec)
-{
-   // if(direction ==0)
+
+void PED_Control(char Direction, char Num_Sec) {
+    if (Direction == 0) {
+
+        seven_seg_set_num(&seven_seg1, -1);
+
+        for (int i = Num_Sec-1; i > 0; i--) {
+
+            seven_seg_set_num(&seven_seg0, i);
+            Wait_One_Second_With_Beep();
+            if (i == 1) {
+                seven_seg_set_num(&seven_seg0, -1);
+                Wait_One_Second_With_Beep();
+            }
+        }
+    } else {
+        seven_seg_set_num(&seven_seg0, -1);
+
+        for (int i = Num_Sec-1; i > 0; i--) {
+            seven_seg_set_num(&seven_seg1, i);
+            Wait_One_Second_With_Beep();
+            if (i == 1) {
+                seven_seg_set_num(&seven_seg1, -1);
+                Wait_One_Second_With_Beep();
+            }
+        }
+    }
+}
+
+void Wait_One_Second_With_Beep() {
+    SEC_LED = 1; // First, turn on the SEC LED
+    Activate_Buzzer(); // Activate the buzzer
+    Wait_Half_Second(); // Wait for half second (or 500 msec)
+    SEC_LED = 0; // then turn off the SEC LED
+    Deactivate_Buzzer(); // Deactivate the buzzer
+    Wait_Half_Second(); // Wait for half second (or 500 msec)
 }
 
 void Set_NS(char color) {
@@ -175,14 +212,12 @@ void Wait_Half_Second() {
     T0CONbits.TMR0ON = 0; // turn off the Timer 0
 }
 
-
-
 /*void Print(int v, int F, int photo) {
     printf("\nVoltage = %d [mV]\r\n", v);
     printf("Temperature = %d [F]\r\n", F);
     printf("PhotoResistor = %d [mV]\r\n", photo);
 }
-*/
+ */
 void Init_UART() {
     OpenUSART(USART_TX_INT_OFF & USART_RX_INT_OFF &
             USART_ASYNCH_MODE & USART_EIGHT_BIT & USART_CONT_RX &
@@ -190,7 +225,12 @@ void Init_UART() {
     OSCCON = 0x70;
 }
 
-
+void NightMode() {
+    Set_EW(RED);
+    Set_EWLT(RED);
+    Set_NSLT(RED);
+    Set_NS(GREEN);
+}
 
 
 
