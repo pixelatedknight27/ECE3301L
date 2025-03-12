@@ -7,6 +7,7 @@
 #include "../../Drivers/Buzzer/Buzzer.h"
 #include "../../Drivers/ADC/ADC.h"
 #include "../../Drivers/seven_segment/seven_segment.h"
+
 #pragma config OSC = INTIO67
 #pragma config WDT = OFF
 #pragma config LVP = OFF

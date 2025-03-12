@@ -1,9 +1,14 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <xc.h>
 #include <math.h>
 #include <p18f4620.h>
+
+#include "../../Drivers/Buzzer/Buzzer.h"
+#include "../../Drivers/ADC/ADC.h"
+#include "../../Drivers/seven_segment/seven_segment.h"
+#include "../../Drivers/UART/UART.h"
+
 
 #pragma config OSC = INTIO67
 #pragma config WDT = OFF
@@ -23,20 +28,24 @@
 #define NS_GREEN PORTAbits.RA2
 
 #define SEC_LED PORTEbits.RE2
+#define MODE_LED PORTEbits.RE1
 
 #define OFF 0
 #define RED 1
 #define GREEN 2
 #define YELLOW 3
 
-// Prototype Area
-void Init_ADC(void);
-unsigned int get_full_ADC(void);
-void Init_UART(void);
-void putch(char c);
-float Read_Ch_Volt(char);
-void Set_ADCON0(char AN_pin);
+#define EWLT_SW PORTCbits.RC0
+#define NSLT_SW PORTAbits.RA5
+#define NSPED_SW PORTAbits.RA3
+#define EWPED_SW PORTAbits.RA4
+
+
 void Print(int v, int F, int photo);
+void Wait_One_Second_With_Beep();
+
+struct seven_seg seven_seg0;
+struct seven_seg seven_seg1;
 
 
 void Wait_N_Seconds(char seconds);
@@ -48,39 +57,80 @@ void Set_NSLT(char color);
 void Set_EW(char color);
 void Set_EWLT(char color);
 
-void PED_Control( char Direction, char Num_Sec);
+void PED_Control(char Direction, char Num_Sec);
+
+void DayMode();
+void NightMode();
 
 void main(void) {
     
+    Init_ADC(0x0E);
     Init_UART();
 
-    TRISA = 0xF9;
+    TRISA = 0b00111001;
     ADCON1 = 0x0E;
     OSCCON = 0x70;
-
     TRISB = 0x00;
-    TRISC = 0x00;
+    TRISC = 0x01;
     TRISD = 0x00;
     TRISE = 0x00;
+    seven_seg_init(&seven_seg0, &PORTB, &TRISB);
+    seven_seg_init(&seven_seg1, &PORTD, &TRISD);
     while (1) {
         
-
-        char LED_7seg[10] = {0x01, 0x4F, 0x12, 0x06, 0x4C, 0x24, 0x20, 0x0F, 0x00, 0x0C};
-
-
-        for (int i = 0; i < 4; i++) {
-            Set_NS(i); // Set color for North-South direction
-            Set_NSLT(i); // Set color for North-South Left-Turn direction
-            Set_EW(i); // Set color for East-West direction
-            Set_EWLT(i); // Set color for East-West Left-Turn direction
-            Wait_N_Seconds(1); // call Wait-N-Second routine to wait for 1 second
+        float light_vltg = Read_Ch_Volt_Converted(0);
+        
+        if(light_vltg > 2.5){
+            MODE_LED = 0;
+            NightMode();
+            
         }
-
+        else{
+            MODE_LED = 1;
+            DayMode();
+            
+        }
+        
+        printf("light sensor voltage: %f\r\n", light_vltg);
+        
     }
 }
-void PED_Control( char Direction, char Num_Sec)
-{
-   // if(direction ==0)
+
+void PED_Control(char Direction, char Num_Sec) {
+    if (Direction == 0) {
+
+        seven_seg_set_num(&seven_seg1, -1);
+
+        for (int i = Num_Sec-1; i > 0; i--) {
+
+            seven_seg_set_num(&seven_seg0, i);
+            Wait_One_Second_With_Beep();
+            if (i == 1) {
+                seven_seg_set_num(&seven_seg0, -1);
+                Wait_One_Second_With_Beep();
+            }
+        }
+    } else {
+        seven_seg_set_num(&seven_seg0, -1);
+
+        for (int i = Num_Sec-1; i > 0; i--) {
+            seven_seg_set_num(&seven_seg1, i);
+            Wait_One_Second_With_Beep();
+            if (i == 1) {
+                seven_seg_set_num(&seven_seg1, -1);
+                Wait_One_Second_With_Beep();
+            }
+        }
+    }
+}
+
+void Wait_One_Second_With_Beep() {
+    SEC_LED = 1; // First, turn on the SEC LED
+    Activate_Buzzer(); // Activate the buzzer
+    Wait_Half_Second(); // Wait for half second (or 500 msec)
+    SEC_LED = 0; // then turn off the SEC LED
+    Deactivate_Buzzer(); // Deactivate the buzzer
+    Wait_Half_Second(); // Wait for half second (or 500 msec)
 }
 
 void Set_NS(char color) {
@@ -173,24 +223,112 @@ void Wait_Half_Second() {
     T0CONbits.TMR0ON = 1; // Turn on the Timer 0
     while (INTCONbits.TMR0IF == 0); // wait for the Timer Flag to be 1 for done
     T0CONbits.TMR0ON = 0; // turn off the Timer 0
+    printf("%d%d%d%d\r\n", NSPED_SW, EWPED_SW, NSLT_SW, EWLT_SW);
 }
 
 
+void DayMode() {
+    Set_EW(RED); //Step 1
+    Set_EWLT(RED);
+    Set_NSLT(RED);
+    Set_NS(GREEN);
 
-/*void Print(int v, int F, int photo) {
-    printf("\nVoltage = %d [mV]\r\n", v);
-    printf("Temperature = %d [F]\r\n", F);
-    printf("PhotoResistor = %d [mV]\r\n", photo);
+    if (NSPED_SW == 1) //STEP2
+    {
+        PED_Control(0, 8);
+
+    }
+    Wait_N_Seconds(7); //STEP3
+    Set_NS(YELLOW); //STEP 4
+    Wait_N_Seconds(3);
+    Set_NS(RED); //STEP5
+
+    if (EWLT_SW == 1) //STEP6
+    {
+        Set_EWLT(GREEN); //STEP 7
+        Wait_N_Seconds(8);
+        Set_EWLT(YELLOW); //8
+        Wait_N_Seconds(3);
+        Set_EWLT(RED); //9
+
+    }
+    Set_EW(GREEN); //10
+    if (EWPED_SW == 1) {
+        PED_Control(1, 7);
+    }
+    Set_EW(GREEN); //11
+    Wait_N_Seconds(6);
+    Set_EW(YELLOW); //12
+    Wait_N_Seconds(3);
+    Set_EW(RED); //13
+    if (NSLT_SW == 1) //14
+    {
+        Set_NSLT(GREEN); //15
+        Wait_N_Seconds(7);
+        Set_NSLT(YELLOW); //16
+        Wait_N_Seconds(3);
+        Set_NSLT(RED); //17
+    }
 }
-*/
-void Init_UART() {
-    OpenUSART(USART_TX_INT_OFF & USART_RX_INT_OFF &
-            USART_ASYNCH_MODE & USART_EIGHT_BIT & USART_CONT_RX &
-            USART_BRGH_HIGH, 25);
-    OSCCON = 0x70;
+
+void NightMode() {
+    // STEP 1
+    Set_EW(RED);
+    Set_EWLT(RED);
+    Set_NSLT(RED);
+    Set_NS(GREEN);
+    
+    // STEP 2
+    Wait_N_Seconds(6);
+    
+    // STEP 3
+    Set_NS(YELLOW);
+    Wait_N_Seconds(3);
+    
+    // STEP 4
+    Set_NS(RED);
+    
+    // STEP 5
+    if(EWLT_SW == 1){
+        
+        // STEP 6
+        Set_EWLT(GREEN);
+        Wait_N_Seconds(7);
+        
+        // STEP 7
+        Set_EWLT(YELLOW);
+        Wait_N_Seconds(3);
+        
+        // STEP 8
+        Set_EWLT(RED);
+        
+        
+    }
+    
+    // STEP 9
+    Set_EW(GREEN);
+    Wait_N_Seconds(6);
+    
+    // STEP 10
+    Set_EW(YELLOW);
+    Wait_N_Seconds(3);
+    
+    // STEP 11
+    Set_EW(RED);
+    
+    //
+    if(NSLT_SW == 1){
+        
+        // STEP 6
+        Set_NSLT(GREEN);
+        Wait_N_Seconds(8);
+        
+        // STEP 7
+        Set_NSLT(YELLOW);
+        Wait_N_Seconds(3);
+        
+        // STEP 8
+        Set_EWLT(RED);
+        
+    }
 }
-
-
-
-
-
