@@ -86,30 +86,30 @@ void Deactivate_Buzzer(void)
 	PORTCbits.RC1 = 0;
 }
 
-void Wait_One_Second()							//creates one second delay and blinking asterisk
-{
-    SEC_LED = 1;
-    Draw_Star();
-    Wait_Half_Second();                         // Wait for half second (or 500 msec)
-    SEC_LED = 0;
-    Erase_Star();
-    Wait_Half_Second();                         // Wait for half second (or 500 msec)
-    update_LCD_misc();
-}
+//void Wait_One_Second()							//creates one second delay and blinking asterisk
+//{
+//    SEC_LED = 1;
+//    Draw_Star();
+//    Wait_Half_Second();                         // Wait for half second (or 500 msec)
+//    SEC_LED = 0;
+//    Erase_Star();
+//    Wait_Half_Second();                         // Wait for half second (or 500 msec)
+//    update_LCD_misc();
+//}
 
-void Wait_One_Second_With_Beep()				//creates one second delay as well as sound buzzer
-{
-    SEC_LED = 1;
-    Draw_Star();
-    Activate_Buzzer();
-    Wait_Half_Second();                         // Wait for half second (or 500 msec)
-
-    SEC_LED = 0;
-    Erase_Star();
-    Deactivate_Buzzer();
-    Wait_Half_Second();                         // Wait for half second (or 500 msec)
-    update_LCD_misc();
-}
+//void Wait_One_Second_With_Beep()				//creates one second delay as well as sound buzzer
+//{
+//    SEC_LED = 1;
+//    Draw_Star();
+//    Activate_Buzzer();
+//    Wait_Half_Second();                         // Wait for half second (or 500 msec)
+//
+//    SEC_LED = 0;
+//    Erase_Star();
+//    Deactivate_Buzzer();
+//    Wait_Half_Second();                         // Wait for half second (or 500 msec)
+//    update_LCD_misc();
+//}
     
 void Wait_Half_Second()
 {

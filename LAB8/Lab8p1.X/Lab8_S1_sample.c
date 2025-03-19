@@ -14,7 +14,7 @@
 #include "utils.h"
 #include "Main_Screen.h"
 #include "ST7735_TFT.h"
-#include "../../Drivers/seven_segment/seven_segment.h"
+
 void Set_NS(char color);
 void Set_NS_LT(char color);
 void Set_EW(char color);
@@ -25,8 +25,7 @@ void Night_Mode();
 void Wait_N_Seconds (char);
 void Wait_One_Second_With_Beep();
 void Wait_One_Second();
-struct seven_seg seven_seg0;
-struct seven_seg seven_seg1;
+
 
 #define _XTAL_FREQ  8000000             // Set operation for 8 Mhz
 #define TMR_CLOCK   _XTAL_FREQ/4        // Timer Clock 2 Mhz
@@ -52,9 +51,6 @@ void main(void)
     Init_ADC();
     Init_UART();
 
-    seven_seg_init(&seven_seg0, &PORTB, &TRISB);
-    seven_seg_init(&seven_seg1, &PORTD, &TRISD);
-    
     Initialize_LCD_Screen();                        // Initialize the TFT screen
 
 //    while (1)
@@ -86,211 +82,37 @@ void main(void)
 
 void Set_NS(char color)
 {
-    switch (color) {
-        case OFF: NS_RED = 0;
-            NS_GREEN = 0;
-            break; // Turns off the NS LED
-        case RED: NS_RED = 1;
-            NS_GREEN = 0;
-            break; // Sets NS LED RED
-        case GREEN: NS_RED = 0;
-            NS_GREEN = 1;
-            break; // sets NS LED GREEN
-        case YELLOW: NS_RED = 1;
-            NS_GREEN = 1;
-            break; // sets NS LED YELLOW
-    }
+    // add code here
 }
 
 void Set_NS_LT(char color)
 {
-    switch (color) {
-        case OFF: NSLT_RED = 0;
-            NSLT_GREEN = 0;
-            break; // Turns off the NS LED
-        case RED: NSLT_RED = 1;
-            NSLT_GREEN = 0;
-            break; // Sets NS LED RED
-        case GREEN: NSLT_RED = 0;
-            NSLT_GREEN = 1;
-            break; // sets NS LED GREEN
-        case YELLOW: NSLT_RED = 1;
-            NSLT_GREEN = 1;
-            break; // sets NS LED YELLOW
-    }
+    // add code here
 }
 
 void Set_EW(char color)
 {
-    switch (color) {
-        case OFF: EW_RED = 0;
-            EW_GREEN = 0;
-            break; // Turns off the NS LED
-        case RED: EW_RED = 1;
-            EW_GREEN = 0;
-            break; // Sets NS LED RED
-        case GREEN: EW_RED = 0;
-            EW_GREEN = 1;
-            break; // sets NS LED GREEN
-        case YELLOW: EW_RED = 1;
-            EW_GREEN = 1;
-            break; // sets NS LED YELLOW
-    }
+    // add code here
 }
 
 void Set_EW_LT(char color)
 {
-    switch (color) {
-        case OFF: EWLT_RED = 0;
-            EWLT_GREEN = 0;
-            break; // Turns off the NS LED
-        case RED: EWLT_RED = 1;
-            EWLT_GREEN = 0;
-            break; // Sets NS LED RED
-        case GREEN: EWLT_RED = 0;
-            EWLT_GREEN = 1;
-            break; // sets NS LED GREEN
-        case YELLOW: EWLT_RED = 1;
-            EWLT_GREEN = 1;
-            break; // sets NS LED YELLOW
-    }
+    // add code here
 }
 
 void PED_Control( char direction, char Num_Sec)
 { 
-    if (direction == 0) {
-
-        seven_seg_set_num(&seven_seg1, -1);
-
-        for (int i = Num_Sec-1; i > 0; i--) {
-
-            seven_seg_set_num(&seven_seg0, i);
-            Wait_One_Second_With_Beep();
-            if (i == 1) {
-                seven_seg_set_num(&seven_seg0, -1);
-                Wait_One_Second_With_Beep();
-            }
-        }
-    } else {
-        seven_seg_set_num(&seven_seg0, -1);
-
-        for (int i = Num_Sec-1; i > 0; i--) {
-            seven_seg_set_num(&seven_seg1, i);
-            Wait_One_Second_With_Beep();
-            if (i == 1) {
-                seven_seg_set_num(&seven_seg1, -1);
-                Wait_One_Second_With_Beep();
-            }
-        }
-    }
+    // add code here
 }
 
 void Day_Mode()
 {
-    Set_EW(RED); //Step 1
-    Set_EW_LT(RED);
-    Set_NS_LT(RED);
-    Set_NS(GREEN);
-
-    if (SW_NSPED == 1) //STEP2
-    {
-        PED_Control(0, 8);
-
-    }
-    Wait_N_Seconds(7); //STEP3
-    Set_NS(YELLOW); //STEP 4
-    Wait_N_Seconds(3);
-    Set_NS(RED); //STEP5
-
-    if (SW_EWLT == 1) //STEP6
-    {
-        Set_EW_LT(GREEN); //STEP 7
-        Wait_N_Seconds(8);
-        Set_EW_LT(YELLOW); //8
-        Wait_N_Seconds(3);
-        Set_EW_LT(RED); //9
-
-    }
-    Set_EW(GREEN); //10
-    if (SW_EWPED == 1) {
-        PED_Control(1, 7);
-    }
-    Set_EW(GREEN); //11
-    Wait_N_Seconds(6);
-    Set_EW(YELLOW); //12
-    Wait_N_Seconds(3);
-    Set_EW(RED); //13
-    if (SW_NSLT == 1) //14
-    {
-        Set_NS_LT(GREEN); //15
-        Wait_N_Seconds(7);
-        Set_NS_LT(YELLOW); //16
-        Wait_N_Seconds(3);
-        Set_NS_LT(RED); //17
-    }
+    // add code here
 }
 
 void Night_Mode()
 { 
-    // STEP 1
-    Set_EW(RED);
-    Set_EW_LT(RED);
-    Set_NS_LT(RED);
-    Set_NS(GREEN);
-    
-    // STEP 2
-    Wait_N_Seconds(6);
-    
-    // STEP 3
-    Set_NS(YELLOW);
-    Wait_N_Seconds(3);
-    
-    // STEP 4
-    Set_NS(RED);
-    
-    // STEP 5
-    if(SW_EWLT == 1){
-        
-        // STEP 6
-        Set_EW_LT(GREEN);
-        Wait_N_Seconds(7);
-        
-        // STEP 7
-        Set_EW_LT(YELLOW);
-        Wait_N_Seconds(3);
-        
-        // STEP 8
-        Set_EW_LT(RED);
-        
-        
-    }
-    
-    // STEP 9
-    Set_EW(GREEN);
-    Wait_N_Seconds(6);
-    
-    // STEP 10
-    Set_EW(YELLOW);
-    Wait_N_Seconds(3);
-    
-    // STEP 11
-    Set_EW(RED);
-    
-    //
-    if(SW_NSLT == 1){
-        
-        // STEP 6
-        Set_NS_LT(GREEN);
-        Wait_N_Seconds(8);
-        
-        // STEP 7
-        Set_NS_LT(YELLOW);
-        Wait_N_Seconds(3);
-        
-        // STEP 8
-        Set_EW_LT(RED);
-        
-    }
+    // add code here
 }
 
 void Wait_One_Second()							//creates one second delay and blinking asterisk
@@ -330,8 +152,6 @@ void Wait_N_Seconds (char seconds)
     }
 	// add code here;
 }
-  
-
 
 
 

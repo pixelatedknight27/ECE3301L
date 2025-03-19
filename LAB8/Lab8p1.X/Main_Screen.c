@@ -168,35 +168,6 @@ void update_LCD_color(char direction, char color)
         drawCircle(XGRN, Circle_Y, Circle_Size, ST7735_GREEN);                       
     }    
     
-    if (color == Color_Red)     //if Color off make all circles black but leave outline
-    {
-        fillCircle(XRED, Circle_Y, Circle_Size, ST7735_BLACK);
-        fillCircle(XYEL, Circle_Y, Circle_Size, ST7735_BLACK);
-        fillCircle(XGRN, Circle_Y, Circle_Size, ST7735_BLACK); 
-        fillCircle(XRED, Circle_Y, Circle_Size, ST7735_RED);            
-        drawCircle(XYEL, Circle_Y, Circle_Size, ST7735_YELLOW);
-        drawCircle(XGRN, Circle_Y, Circle_Size, ST7735_GREEN);                       
-    } 
-    
-    if (color == Color_Yellow)     //if Color off make all circles black but leave outline
-    {
-        fillCircle(XRED, Circle_Y, Circle_Size, ST7735_BLACK);
-        fillCircle(XYEL, Circle_Y, Circle_Size, ST7735_BLACK);
-        fillCircle(XGRN, Circle_Y, Circle_Size, ST7735_BLACK); 
-        drawCircle(XRED, Circle_Y, Circle_Size, ST7735_RED);            
-        fillCircle(XYEL, Circle_Y, Circle_Size, ST7735_YELLOW);
-        drawCircle(XGRN, Circle_Y, Circle_Size, ST7735_GREEN);                       
-    } 
-    
-    if (color == Color_Green)     //if Color off make all circles black but leave outline
-    {
-        fillCircle(XRED, Circle_Y, Circle_Size, ST7735_BLACK);
-        fillCircle(XYEL, Circle_Y, Circle_Size, ST7735_BLACK);
-        fillCircle(XGRN, Circle_Y, Circle_Size, ST7735_BLACK); 
-        drawCircle(XRED, Circle_Y, Circle_Size, ST7735_RED);            
-        drawCircle(XYEL, Circle_Y, Circle_Size, ST7735_YELLOW);
-        fillCircle(XGRN, Circle_Y, Circle_Size, ST7735_GREEN);                       
-    } 
 	// add code here
 }
 
