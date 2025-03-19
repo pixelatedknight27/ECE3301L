@@ -178,7 +178,8 @@ void Wait_One_Second() //creates one second delay and blinking asterisk
     SEC_LED = 0;
     Erase_Star();
     Wait_Half_Second(); // Wait for half second (or 500 msec)
-    // add code here
+    update_LCD_misc();
+    
 }
 
 void Wait_One_Second_With_Beep() //creates one second delay as well as sound buzzer
@@ -192,17 +193,17 @@ void Wait_One_Second_With_Beep() //creates one second delay as well as sound buz
     Erase_Star();
     Deactivate_Buzzer();
     Wait_Half_Second(); // Wait for half second (or 500 msec)
-    // add code here;
+    update_LCD_misc();
 }
 
 void Wait_N_Seconds(char seconds) {
     char I;
     for (I = seconds; I > 0; I--) {
-        // add code here;
+        update_LCD_count(direction, I);// add code here;
         Wait_One_Second(); // calls Wait_One_Second for x number of times
 
     }
-    // add code here;
+    update_LCD_count(direction, 0);// add code here;
 }
 
 
