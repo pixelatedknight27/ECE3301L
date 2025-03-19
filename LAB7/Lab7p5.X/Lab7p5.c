@@ -18,11 +18,11 @@
 #define EWLT_RED PORTBbits.RB7
 #define EWLT_GREEN PORTEbits.RE0
 
-#define EW_RED PORTCbits.RC4
-#define EW_GREEN PORTCbits.RC5
+#define EW_RED PORTBbits.RB4
+#define EW_GREEN PORTBbits.RB5
 
 #define NSLT_RED PORTCbits.RC2
-#define NSLT_GREEN PORTCbits.RC3
+#define NSLT_GREEN PORTCbits.RC4
 
 #define NS_RED PORTAbits.RA1
 #define NS_GREEN PORTAbits.RA2
