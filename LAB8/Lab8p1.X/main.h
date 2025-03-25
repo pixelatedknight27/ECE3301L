@@ -34,15 +34,15 @@
 
 #define mask_TFT	0b01110000				// mask to protect the TFT signals
 
-#define PEDESTRIAN_NS_WAIT  7
-#define NS_WAIT             7
-#define EW_LT_WAIT          7
-#define PEDESTRIAN_EW_WAIT  7
-#define EW_WAIT             7
-#define NS_LT_WAIT          7
+#define PEDESTRIAN_NS_WAIT  PORTAbits.RA3
+#define NS_WAIT             PORTAbits.RA3
+#define EW_LT_WAIT          PORTCbits.RC0
+#define PEDESTRIAN_EW_WAIT  PORTAbits.RA4
+#define EW_WAIT             PORTAbits.RA4
+#define NS_LT_WAIT          PORTAbits.RA5
 
-#define NIGHT_NS_WAIT       7
-#define NIGHT_EW_LT_WAIT    7
-#define NIGHT_EW_WAIT       7
-#define NIGHT_NS_LT_WAIT    7
+#define NIGHT_NS_WAIT       PORTAbits.RA3
+#define NIGHT_EW_LT_WAIT    PORTCbits.RC0
+#define NIGHT_EW_WAIT       PORTAbits.RA4
+#define NIGHT_NS_LT_WAIT    PORTAbits.RA5
 

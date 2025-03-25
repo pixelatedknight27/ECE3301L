@@ -42,33 +42,39 @@ extern char Light_Sensor;
 
 void main(void) {
     OSCCON = 0x70; // set the system clock to be 1MHz 1/4 of the 4MHz
-    TRISA = 0x1F; //inputs RA0/AN0-RA4 inputs,RA5 output
+    TRISA = 0b00111001; //inputs RA0/AN0-RA4 inputs,RA5 output
     TRISB = 0x07; // outputs
-    TRISC = 0x00; // set PORTC as outputs
+    TRISC = 0x01; // set PORTC as outputs
     TRISD = 0x00; // set PORTD as outputs
     TRISE = 0x00; // set PORTE as outputs
     Init_ADC();
     Init_UART();
+    
+    PORTD = 0x00;
 
     Initialize_LCD_Screen(); // Initialize the TFT screen
 
-    while (1) {
-        Rcmd2red();
-        delay_ms(2);
-
-    }
+//    while (1) {
+//        Rcmd2red();
+//        delay_ms(2);
+//
+//    }
 
     volt = Read_Volt(0); // 
 
     Light_Sensor = volt < 2.5 ? 1 : 0; // Mode = 1, Day_mode, Mode = 0 Night_mode
+    
+    
 
     while (1) // forever loop
     {
 
         if (Light_Sensor == 1) {
+            MODE = 1;
             Day_Mode(); // calls Day_Mode() function
         } else {
-            Night_Mode(); // calls Night_Mode() function
+            MODE = 0;
+            Night_Mode(); // calls Day_Mode() function
         }
 
     }
@@ -159,15 +165,129 @@ void Set_EW_LT(char color) {
 }
 
 void PED_Control(char direction, char Num_Sec) {
-    // add code here
+    if (direction == 0) {
+
+        for (int i = Num_Sec-1; i > 0; i--) {
+            Wait_One_Second_With_Beep();
+            if (i == 1) {
+                Wait_One_Second_With_Beep();
+            }
+        }
+    } else {
+
+        for (int i = Num_Sec-1; i > 0; i--) {
+            Wait_One_Second_With_Beep();
+            if (i == 1) {
+                Wait_One_Second_With_Beep();
+            }
+        }
+    }
 }
 
 void Day_Mode() {
-    // add code here
+    Set_EW(RED); //Step 1
+    Set_EW_LT(RED);
+    Set_NS_LT(RED);
+    Set_NS(GREEN);
+
+    if (PEDESTRIAN_NS_WAIT == 1) //STEP2
+    {
+        PED_Control(0, 8);
+
+    }
+    Wait_N_Seconds(7); //STEP3
+    Set_NS(YELLOW); //STEP 4
+    Wait_N_Seconds(3);
+    Set_NS(RED); //STEP5
+
+    if (EW_LT_SW == 1) //STEP6
+    {
+        Set_EW_LT(GREEN); //STEP 7
+        Wait_N_Seconds(8);
+        Set_EW_LT(YELLOW); //8
+        Wait_N_Seconds(3);
+        Set_EW_LT(RED); //9
+
+    }
+    Set_EW(GREEN); //10
+    if (PEDESTRIAN_EW_WAIT == 1) {
+        PED_Control(1, 7);
+    }
+    Set_EW(GREEN); //11
+    Wait_N_Seconds(6);
+    Set_EW(YELLOW); //12
+    Wait_N_Seconds(3);
+    Set_EW(RED); //13
+    if (NS_LT_SW == 1) //14
+    {
+        Set_NS_LT(GREEN); //15
+        Wait_N_Seconds(7);
+        Set_NS_LT(YELLOW); //16
+        Wait_N_Seconds(3);
+        Set_NS_LT(RED); //17
+    }
 }
 
 void Night_Mode() {
-    // add code here
+    // STEP 1
+    Set_EW(RED);
+    Set_EW_LT(RED);
+    Set_NS_LT(RED);
+    Set_NS(GREEN);
+
+    // STEP 2
+    Wait_N_Seconds(6);
+
+    // STEP 3
+    Set_NS(YELLOW);
+    Wait_N_Seconds(3);
+
+    // STEP 4
+    Set_NS(RED);
+
+    // STEP 5
+    if (EW_LT_SW == 1) {
+
+        // STEP 6
+        Set_EW_LT(GREEN);
+        Wait_N_Seconds(7);
+
+        // STEP 7
+        Set_EW_LT(YELLOW);
+        Wait_N_Seconds(3);
+
+        // STEP 8
+        Set_EW_LT(RED);
+
+
+    }
+
+    // STEP 9
+    Set_EW(GREEN);
+    Wait_N_Seconds(6);
+
+    // STEP 10
+    Set_EW(YELLOW);
+    Wait_N_Seconds(3);
+
+    // STEP 11
+    Set_EW(RED);
+
+    //
+    if (NS_LT_SW == 1) {
+
+        // STEP 6
+        Set_NS_LT(GREEN);
+        Wait_N_Seconds(8);
+
+        // STEP 7
+        Set_NS_LT(YELLOW);
+        Wait_N_Seconds(3);
+
+        // STEP 8
+        Set_EW_LT(RED);
+
+    }
 }
 
 void Wait_One_Second() //creates one second delay and blinking asterisk

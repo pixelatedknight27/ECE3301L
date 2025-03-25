@@ -120,6 +120,8 @@ void Wait_Half_Second()
     T0CONbits.TMR0ON = 1;           // Turn on the Timer 0
     while (INTCONbits.TMR0IF == 0); // wait for the Timer Flag to be 1 for done
     T0CONbits.TMR0ON = 0;           // turn off the Timer 0
+    
+    printf("%d %d %d %d\r\n", EW_LT_SW, EW_PED_SW, NS_LT_SW, NS_PED_SW);
 }
 
 
