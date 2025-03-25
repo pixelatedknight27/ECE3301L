@@ -165,22 +165,9 @@ void Set_EW_LT(char color) {
 }
 
 void PED_Control(char direction, char Num_Sec) {
-    if (direction == 0) {
-
-        for (int i = Num_Sec-1; i > 0; i--) {
-            Wait_One_Second_With_Beep();
-            if (i == 1) {
-                Wait_One_Second_With_Beep();
-            }
-        }
-    } else {
-
-        for (int i = Num_Sec-1; i > 0; i--) {
-            Wait_One_Second_With_Beep();
-            if (i == 1) {
-                Wait_One_Second_With_Beep();
-            }
-        }
+    for (int i = Num_Sec - 1; i >= 0; i--) {
+        Wait_One_Second_With_Beep();
+        update_LCD_PED_Count(direction, i);
     }
 }
 
@@ -192,7 +179,7 @@ void Day_Mode() {
 
     if (PEDESTRIAN_NS_WAIT == 1) //STEP2
     {
-        PED_Control(0, 8);
+        PED_Control(NS, 8);
 
     }
     Wait_N_Seconds(7); //STEP3
@@ -211,7 +198,7 @@ void Day_Mode() {
     }
     Set_EW(GREEN); //10
     if (PEDESTRIAN_EW_WAIT == 1) {
-        PED_Control(1, 7);
+        PED_Control(EW, 7);
     }
     Set_EW(GREEN); //11
     Wait_N_Seconds(6);

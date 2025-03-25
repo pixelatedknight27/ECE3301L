@@ -210,11 +210,7 @@ void update_LCD_PED_Count(char direction, char count) {
             DP = 1; // turn off DP
             drawtext(PED_Count_X, PED_EW_Count_Y, PED_EW_Count, EW_Color, ST7735_BLACK, TS_2); //Put counter digit on screen
             break;
-        
-            // add code here		
-
     }
-
 }
 
 void update_LCD_count(char direction, char count) {
