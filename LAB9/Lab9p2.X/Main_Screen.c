@@ -46,17 +46,20 @@ char SW_NSLT; // RAM variable for NS Left Turn Switch
 char Light_Sensor; // RAM variable for Light Sensor
 extern char MODE;
 
-char INT0_Flag;
-char INT1_Flag;
-char INT2_Flag;
+extern char INT0_Flag;
+extern char INT1_Flag;
+extern char INT2_Flag;
 
-extern char EW_PED_SW;
-extern char NS_PED_SW; 
+extern char EW_PED_SW ;
+extern char NS_PED_SW ;
 
 extern char Flashing_Request;
 extern char Flashing_Status; 
 
 void Initialize_LCD_Screen() {
+    
+    RBPU = 0;
+    init_INTERRUPT();
     
     LCD_Reset();
     TFT_GreenTab_Initialize();
@@ -281,9 +284,11 @@ void update_LCD_misc() {
     else SW_EWLT_Txt[0] = '1';
 
     // add code here	
-    if (Flashing_Request == 0) FlashingR_Txt[0] = '0'; else FlashingR_Txt[0] = '1';
-    if (Flashing_Status == 0) FlashingS_Txt[0] = '0'; else FlashingS_Txt[0] = '1'; 
-    
+    if (Flashing_Request == 0) FlashingR_Txt[0] = '0';
+    else FlashingR_Txt[0] = '1';
+    if (Flashing_Status == 0) FlashingS_Txt[0] = '0';
+    else FlashingS_Txt[0] = '1'; 
+
     drawtext(35, Mode_Y, Act_Mode_Txt, ST7735_WHITE, ST7735_BLACK, TS_1);
     drawtext(75, Mode_Y, Light_Sensor_Voltage_Txt, ST7735_WHITE, ST7735_BLACK, TS_1);
     drawtext(100, Mode_Y, Light_Sensor_Mode_Txt, ST7735_WHITE, ST7735_BLACK, TS_1);

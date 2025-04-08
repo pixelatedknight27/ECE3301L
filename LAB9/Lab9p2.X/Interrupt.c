@@ -9,6 +9,9 @@ extern char EW_PED_SW;
 extern char NS_PED_SW;
 
 extern char Flashing_Request;
+extern char EW_PED_SW ;
+extern char NS_PED_SW ;
+
 extern char MODE;
 
 void init_INTERRUPT()
@@ -42,7 +45,7 @@ void interrupt  high_priority chkisr()
 void INT0_ISR()
 {
     INTCONbits.INT0IF=0; // Clear the interrupt flag
-    MODE == 1 ? NS_PED_SW = 1 : 0;    
+    NS_PED_SW = 1;    
 }
 
 void INT1_ISR()
@@ -56,6 +59,6 @@ void INT2_ISR()
 {
     // add more code  
     INTCON3bits.INT2IF=0; // Clear the interrupt flag
-    Flashing_Request = 1;      
+    Flashing_Request = 1;
 }
 

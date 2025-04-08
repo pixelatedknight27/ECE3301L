@@ -25,8 +25,8 @@ void Night_Mode();
 void Wait_N_Seconds(char);
 void Wait_One_Second_With_Beep();
 void Wait_One_Second();
+void Do_Flashing();
 
-Do_Flashing();
 
 #define _XTAL_FREQ  8000000             // Set operation for 8 Mhz
 #define TMR_CLOCK   _XTAL_FREQ/4        // Timer Clock 2 Mhz
@@ -41,8 +41,12 @@ float volt;
 
 extern char Light_Sensor;
 
+char INT0_Flag;
+char INT1_Flag;
+char INT2_Flag;
+
 char NS_PED_SW = 0;
-char EW_PED_SW = 0; 
+char EW_PED_SW = 0;
 
 char Flashing_Request = 0;
 char Flashing_Status = 0; 
@@ -56,13 +60,15 @@ void main(void) {
     TRISE = 0x00; // set PORTE as outputs
     Init_ADC();
     Init_UART();
+    
+    PORTD = 0x00;
 
     Initialize_LCD_Screen(); // Initialize the TFT screen
 
     volt = Read_Volt(0); // 
 
     Light_Sensor = volt < 2.5 ? 1 : 0; // Mode = 1, Day_mode, Mode = 0 Night_mode
-    
+
     while (1) // forever loop
     {
 
@@ -77,7 +83,7 @@ void main(void) {
         if (Flashing_Request == 1) {
             Flashing_Request = 0;
             Flashing_Status = 1;
-            Do_Flashing();
+            Do_Flashing(); 
         }
 
     }
@@ -168,20 +174,22 @@ void Set_EW_LT(char color) {
 }
 
 void PED_Control(char direction, char Num_Sec) {
-    for (int i = Num_Sec - 1; i >= 0; i--) {
-        Wait_One_Second_With_Beep();
+    
+//    update_LCD_PED_Count(direction, i);
+    for (int i = Num_Sec-1; i >= 0; i--) {
+        
         update_LCD_PED_Count(direction, i);
+        Wait_One_Second_With_Beep();
     }
     
-    switch (direction){
+    switch(direction){
         case NS:
-            NS_PED_SW = 0; 
+            NS_PED_SW = 0;
             break;
-        case EW: 
-            EW_PED_SW = 0; 
+        case EW:
+            EW_PED_SW = 0;
             break;
     }
-    
 }
 
 void Day_Mode() {
@@ -190,9 +198,9 @@ void Day_Mode() {
     Set_NS_LT(RED);
     Set_NS(GREEN);
 
-    if (PEDESTRIAN_NS_WAIT == 1) //STEP2
+    if (NS_PED_SW == 1) //STEP2
     {
-        PED_Control(NS, 8);
+        PED_Control(NS, PEDESTRIAN_NS_WAIT);
 
     }
     Wait_N_Seconds(7); //STEP3
@@ -210,8 +218,8 @@ void Day_Mode() {
 
     }
     Set_EW(GREEN); //10
-    if (PEDESTRIAN_EW_WAIT == 1) {
-        PED_Control(EW, 7);
+    if (EW_PED_SW == 1) {
+        PED_Control(EW, PEDESTRIAN_EW_WAIT);
     }
     Set_EW(GREEN); //11
     Wait_N_Seconds(6);
@@ -230,6 +238,9 @@ void Day_Mode() {
 
 void Night_Mode() {
     // STEP 1
+    NS_PED_SW = 0;
+    EW_PED_SW = 0;
+    
     Set_EW(RED);
     Set_EW_LT(RED);
     Set_NS_LT(RED);
@@ -326,8 +337,8 @@ void Wait_N_Seconds(char seconds) {
     update_LCD_count(direction, 0);// add code here;
 }
 
-Do_Flashing(){
-    while(Flashing_Status){
+void Do_Flashing(){
+    while(Flashing_Status) {
         switch (Flashing_Request){
             case 0:
                 Set_EW(RED);
@@ -339,15 +350,15 @@ Do_Flashing(){
                 Set_EW_LT(OFF);
                 Set_NS_LT(OFF);
                 Set_NS(OFF);
+                Wait_One_Second();
                 break;
             case 1:
-                Flashing_Status = 0;
                 Flashing_Request = 0;
+                Flashing_Status = 0;
                 break;
         }
     }
 }
-
 
 
 
