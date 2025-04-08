@@ -1,4 +1,4 @@
-
+#include <stdint.h>
 #include <xc.h>
 #include <p18f4620.h>
 #include "Interrupt.h"
@@ -11,6 +11,8 @@ unsigned char Nec_State = 0;
 
 extern char Nec_Button;
 extern short Nec_OK;
+
+uint8_t portE_mask = 0b00000111;
 
 void Init_Interrupt()
 {
@@ -81,22 +83,81 @@ void INTx_isr(void)
         
         case 1 :
         {
-
+            if(Time_Elapsed >= 8500 && Time_Elapsed <= 9500){
+                Nec_State = 2;
+                
+                PORTE = (PORTE & (~portE_mask)) | (Nec_State & (portE_mask));
+                
+            }
+            else{
+                Reset_Nec_State();
+            }
+            
+            INTCON2bits.INTEDG0 = 0;        // Change Edge interrupt of INT 0 to High to Low
+            
         }
         
         case 2 :                            // Add your code here
         {
+            if (Time_Elapsed >= 4000 && Time_Elapsed <= 5000) {
+                Nec_State = 3;
 
+                PORTE = (PORTE & (~portE_mask)) | (Nec_State & (portE_mask));
+
+            } else {
+                Reset_Nec_State();
+            }
+
+            INTCON2bits.INTEDG0 = 1; // Change Edge interrupt of INT 0 to Low to High
         }
         
         case 3 :                            // Add your code here
         {
+            if (Time_Elapsed >= 400 && Time_Elapsed <= 700) {
+                Nec_State = 4;
 
+                PORTE = (PORTE & (~portE_mask)) | (Nec_State & (portE_mask));
+
+            } else {
+                Reset_Nec_State();
+            }
+
+            INTCON2bits.INTEDG0 = 0; // Change Edge interrupt of INT 0 to High to Low
         }
         
         case 4 :                            // Add your code here
         {
+            if (Time_Elapsed >= 400 && Time_Elapsed <= 1800) {
+                
+                Nec_code << 1;
+                
+                Time_Elapsed > 1000 ? Nec_code++ : 0;
+                
+                bit_count++;
+                
+                if (bit_count > 31){
+                    Nec_Button = Nec_code << 8;
+                    Nec_State = 0;
+                    
+                    PORTE = (PORTE & (~portE_mask)) | (Nec_State & (portE_mask));
+                    
+                    Nec_OK = 1;
+                    
+                    INT0IE = 0;
+                }
+                else{
+                    Nec_State = 3;
+                    
+                    PORTE = (PORTE & (~portE_mask)) | (Nec_State & (portE_mask));
+                }
 
+            } 
+            
+            else {
+                Reset_Nec_State();
+            }
+
+            INTCON2bits.INTEDG0 = 1; // Change Edge interrupt of INT 0 to Low to High
         }
     }
 }

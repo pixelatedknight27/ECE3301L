@@ -42,6 +42,7 @@ void main()
     TRISC = 0x00;                           // PORTC as output
     TRISD = 0x00;
     ADCON1 = 0x0F;                          //
+    TRISE = 0x00;
  
     Initialize_LCD_Screen();
     Init_Interrupt();
@@ -52,7 +53,7 @@ void main()
     
     while(1)
     {
-         if (Nec_OK == 1)
+        if (Nec_OK == 1)
         {
             Nec_OK = 0;
             Enable_INT_Interrupt();
