@@ -55,14 +55,14 @@ void Reset_Nec_State()
 void INTx_isr(void)
 {
     INTCONbits.INT0IF = 0;                  // Clear external interrupt INT0IF
-    if (Nec_state != 0)
+    if (Nec_State != 0)
     {
         Time_Elapsed = (TMR1H << 8) | TMR1L;// Store Timer1 value
         TMR1H = 0;                          // Reset Timer1
         TMR1L = 0;
     }
     
-    switch(Nec_state)
+    switch(Nec_State)
     {
         case 0 :
         {

@@ -18,10 +18,10 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>src/Interrupt.c</itemPath>
-      <itemPath>src/Lab10_S2_sample.c</itemPath>
       <itemPath>src/Main_Screen.c</itemPath>
       <itemPath>src/ST7735_TFT.c</itemPath>
       <itemPath>src/utils.c</itemPath>
+      <itemPath>src/Lab10p2.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -31,6 +31,7 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>src</Elem>
+    <Elem>../Lab10p1.X/src</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

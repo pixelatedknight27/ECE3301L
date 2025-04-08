@@ -1,9 +1,9 @@
 
 #define _XTAL_FREQ  8000000             // Set operation for 8 Mhz
 
-#define TFT_DC      PORT?bits.R??       // Location of TFT D/C
-#define TFT_CS      PORT?bits.R??       // Location of TFT Chip Select
-#define TFT_RST     PORT?bits.R??       // Location of TFT Reset
+#define TFT_DC      PORTCbits.RC4       // Location of TFT D/C
+#define TFT_CS      PORTDbits.RD0       // Location of TFT Chip Select
+#define TFT_RST     PORTDbits.RD1       // Location of TFT Reset
 
 #define _swap(a, b) { signed int t; t = a; a = b; b = t;}
 

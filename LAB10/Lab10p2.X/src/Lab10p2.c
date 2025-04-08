@@ -15,12 +15,14 @@
 #include "ST7735_TFT.h"
 #include "utils.h"
 #include "Main_Screen.h"
+#include "Interrupt.h"
 
 #define _XTAL_FREQ  8000000             // Set operation for 8 Mhz
 
 
 short Nec_OK = 0;
 char Nec_Button;
+extern unsigned long long Nec_code;
 
 
 
@@ -44,7 +46,9 @@ void main()
     Initialize_LCD_Screen();
     Init_Interrupt();
 
-    Nec_code = 0x0;                         // Clear code
+                             // Clear code
+    
+    Nec_code = 0x0;
     
     while(1)
     {
