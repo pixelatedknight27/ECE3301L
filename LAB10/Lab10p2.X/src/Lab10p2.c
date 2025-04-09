@@ -28,6 +28,10 @@ char array1[21] = {0xA2, 0x62, 0xE2, 0x22, 0x02, 0xC2, 0xE0, 0xA8, 0x90, 0x68, 0
 char txt1[21][4] = {"CH-\0", " CH\0", "CH+\0", "PRV\0", "NXT\0", "PAU\0", "VL-\0", "VL+\0", " EQ\0", " 0 \0", "100\0", "200\0", " 1 \0", " 2 \0", " 3 \0", " 4 \0", " 5 \0", " 6 \0", " 7 \0", " 8 \0", " 9 \0"};
 int color[21] = {RD, RD, RD, CY, CY, GR, BU, BU, MA, BK, BK, BK, BK, BK, BK, BK, BK, BK, BK, BK, BK};
 
+extern volatile unsigned char* RGB_LED[] = {&PORTA, &PORTA, &PORTB};
+char off[] = {0, 3, 0};
+
+
 void main()
 {
     Init_UART();
@@ -37,6 +41,7 @@ void main()
     TRISC = 0x00;                           // PORTC as output
     TRISD = 0x00;
     ADCON1 = 0x0F;                          //
+    TRISA = 0x00;
  
     Initialize_LCD_Screen();
     Init_Interrupt();
@@ -68,9 +73,18 @@ void main()
                 drawCircle(Circle_X, Circle_Y, Circle_Size, ST7735_WHITE);  
                 drawtext(Text_X, Text_Y, txt1[found], ST7735_WHITE, ST7735_BLACK,TS_1);
    
-			// add code to output color for the RGB LEDS
+                // add code to output color for the RGB LEDS
+            
+                char LED_Sel = found;
+                
+                char LED_Sel = found & 0b00011000 >> 3;
+                
+                *RGB_LED[LED_Sel] = (*RGB_LED[LED_Sel] & (~0b00000111 << off[LED_Sel])) | (found & (0b00000111 << off[LED_Sel]));
+                
+                
+                        
 			
-			// add code to handle the KEY_PRESSED LED and do the buzzer sound
+                // add code to handle the KEY_PRESSED LED and do the buzzer sound
             
             }
         }
