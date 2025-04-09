@@ -2,7 +2,6 @@
 #include <xc.h>
 #include <p18f4620.h>
 #include "Interrupt.h"
-#include "utils.h"
 
 unsigned char bit_count;
 unsigned int Time_Elapsed;
@@ -14,8 +13,6 @@ extern char Nec_Button;
 extern short Nec_OK;
 
 uint8_t portE_mask = 0b00000111;
-
-extern int printf(const char *, ...);
 
 void Init_Interrupt()
 {
@@ -82,7 +79,8 @@ void INTx_isr(void)
             Nec_State = 1;                  // Set Nec_State to state 1
             PORTE = (PORTE & (~portE_mask)) | (Nec_State & (portE_mask));
             
-            INTCON2bits.INTEDG0 = 1;        // Change Edge interrupt of INT 0 to Low to High            
+            INTCON2bits.INTEDG0 = 1;        // Change Edge interrupt of INT 0 to Low to High    
+            
             return;
         }
         
