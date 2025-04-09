@@ -11,6 +11,7 @@ void Initialize_LCD_Screen(void);
 #define RD               ST7735_RED
 #define BU               ST7735_BLUE
 #define GR               ST7735_GREEN
+#define CY               ST7735_CYAN
 #define MA               ST7735_MAGENTA
 #define BK               ST7735_BLACK
 #define WH               ST7735_WHITE
