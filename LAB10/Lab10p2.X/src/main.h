@@ -1,6 +1,6 @@
 //colors
 
-#define KEY_PRESSED     PORTBbits.RB0   
+#define KEY_PRESSED     PORTDbits.RD7   
 
 #define Semester        2               // Type 0 for Sp, 1 for Fa
 #define Year            24              // Type 2 digits year
