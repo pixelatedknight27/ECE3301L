@@ -10,7 +10,7 @@
 #pragma config WDT = OFF
 #pragma config LVP = OFF
 #pragma config BOREN = OFF
-#pragma config CCP2MX = PORTBE
+//#pragma config CCP2MX = PORTBE
 
 #include "ST7735_TFT.h"
 #include "utils.h"
@@ -32,6 +32,7 @@ char array1[21] = {0xA2, 0x62, 0xE2, 0x22, 0x02, 0xC2, 0xE0, 0xA8, 0x90, 0x68, 0
 char txt1[21][4] = {"CH-\0", " CH\0", "CH+\0", "PRV\0", "NXT\0", "PAU\0", "VL-\0", "VL+\0", " EQ\0", " 0 \0", "100\0", "200\0", " 1 \0", " 2 \0", " 3 \0", " 4 \0", " 5 \0", " 6 \0", " 7 \0", " 8 \0", " 9 \0"};
 int color[21] = {RD, RD, RD, CY, CY, GR, BU, BU, MA, BK, BK, BK, BK, BK, BK, BK, BK, BK, BK, BK, BK};
 int color2[21] = { RED, RED, RED, CYAN, CYAN, GREEN, BLUE, BLUE, MAGENTA, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE};
+int nums[21] = {0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,1,1,1,1};
 
 extern volatile unsigned char* RGB_LED[] = {&PORTB, &PORTA, &PORTA};
 
@@ -46,9 +47,12 @@ void main() {
     TRISD = 0x00;
     ADCON1 = 0x0F; //
     TRISA = 0x00;
+    TRISE = 0x00;
+    
     
     PORTA = 0x00;
     PORTB = 0x00;
+    PORTC = 0x00;
  
 
     Initialize_LCD_Screen();
@@ -84,18 +88,17 @@ void main() {
                 
                 PORTA = 0;
                 PORTB = 0;
+                PORTCbits.RC0 = nums[found];
                 
-                *RGB_LED[LED_Sel] = (*RGB_LED[LED_Sel] & (~0b00000111 << off[LED_Sel])) | ((color2[found] & 0b00000111) << off[LED_Sel]);
                 
                 
-                        
+                *RGB_LED[LED_Sel] = (*RGB_LED[LED_Sel] & (~0b00000111 << off[LED_Sel])) | ((color2[found] & 0b00000111) << off[LED_Sel]);    
 			
                 // add code to handle the KEY_PRESSED LED and do the buzzer sound
                 PORTDbits.RD7 = 1;
                 Activate_Buzzer();
                 Wait_One_Sec();
                 Deactivate_Buzzer();
-                Wait_One_Sec();
                 PORTDbits.RD7 = 0;
 
             }
