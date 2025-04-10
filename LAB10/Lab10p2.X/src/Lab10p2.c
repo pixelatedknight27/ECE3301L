@@ -37,51 +37,47 @@ extern volatile unsigned char* RGB_LED[] = {&PORTB, &PORTA, &PORTA};
 
 char off[] = {3, 0, 3};
 
-
-void main()
-{
+void main() {
     Init_UART();
-    OSCCON = 0x70;                          // 8 Mhz
-    nRBPU = 0;                              // Enable PORTB internal pull up resistor
+    OSCCON = 0x70; // 8 Mhz
+    nRBPU = 0; // Enable PORTB internal pull up resistor
     TRISB = 0x01;
-    TRISC = 0x00;                           // PORTC as output
+    TRISC = 0x00; // PORTC as output
     TRISD = 0x00;
-    ADCON1 = 0x0F;                          //
+    ADCON1 = 0x0F; //
     TRISA = 0x00;
     
     PORTA = 0x00;
     PORTB = 0x00;
  
+
     Initialize_LCD_Screen();
     Init_Interrupt();
 
-                             // Clear code
-    
+    // Clear code
+
     Nec_code = 0x0;
-    
-    while(1)
-    {
-         if (Nec_OK == 1)
-        {
+
+    while (1) {
+        if (Nec_OK == 1) {
             Nec_OK = 0;
             Enable_INT_Interrupt();
-            printf ("NEC_Button = %x \r\n", Nec_Button);  
+            printf("NEC_Button = %x \r\n", Nec_Button);
 
             char found = 0xff;
-            
-            for(int i = 0; i < 21; i++){
-                if(array1[i] == Nec_Button){
+
+            for (int i = 0; i < 21; i++) {
+                if (array1[i] == Nec_Button) {
                     found = i;
                 }
             }
-            
-            if (found != 0xff) 
-            {
-				printf ("Key Location = %d \r\n\n", found);      
-                fillCircle(Circle_X, Circle_Y, Circle_Size, color[found]); 
-                drawCircle(Circle_X, Circle_Y, Circle_Size, ST7735_WHITE);  
-                drawtext(Text_X, Text_Y, txt1[found], ST7735_WHITE, ST7735_BLACK,TS_1);
-   
+
+            if (found != 0xff) {
+                printf("Key Location = %d \r\n\n", found);
+                fillCircle(Circle_X, Circle_Y, Circle_Size, color[found]);
+                drawCircle(Circle_X, Circle_Y, Circle_Size, ST7735_WHITE);
+                drawtext(Text_X, Text_Y, txt1[found], ST7735_WHITE, ST7735_BLACK, TS_1);
+
                 // add code to output color for the RGB LEDS
                 
                 char LED_Sel = found / 7;
@@ -95,7 +91,13 @@ void main()
                         
 			
                 // add code to handle the KEY_PRESSED LED and do the buzzer sound
-            
+                PORTDbits.RD7 = 1;
+                Activate_Buzzer();
+                Wait_One_Sec();
+                Deactivate_Buzzer();
+                Wait_One_Sec();
+                PORTDbits.RD7 = 0;
+
             }
         }
     }
