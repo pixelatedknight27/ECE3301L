@@ -24,12 +24,18 @@ short Nec_OK = 0;
 char Nec_Button;
 extern unsigned long long Nec_code;
 
+typedef enum{
+    OFF, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE
+} colors;
+
 char array1[21] = {0xA2, 0x62, 0xE2, 0x22, 0x02, 0xC2, 0xE0, 0xA8, 0x90, 0x68, 0x98, 0xB0, 0x30, 0x18, 0x7A, 0x10, 0x38, 0x5A, 0x42, 0x4A, 0x52};
 char txt1[21][4] = {"CH-\0", " CH\0", "CH+\0", "PRV\0", "NXT\0", "PAU\0", "VL-\0", "VL+\0", " EQ\0", " 0 \0", "100\0", "200\0", " 1 \0", " 2 \0", " 3 \0", " 4 \0", " 5 \0", " 6 \0", " 7 \0", " 8 \0", " 9 \0"};
 int color[21] = {RD, RD, RD, CY, CY, GR, BU, BU, MA, BK, BK, BK, BK, BK, BK, BK, BK, BK, BK, BK, BK};
+int color2[21] = { RED, RED, RED, CYAN, CYAN, GREEN, BLUE, BLUE, MAGENTA, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE};
 
-extern volatile unsigned char* RGB_LED[] = {&PORTA, &PORTA, &PORTB};
-char off[] = {0, 3, 0};
+extern volatile unsigned char* RGB_LED[] = {&PORTB, &PORTA, &PORTA};
+
+char off[] = {3, 0, 3};
 
 
 void main()
@@ -42,6 +48,9 @@ void main()
     TRISD = 0x00;
     ADCON1 = 0x0F;                          //
     TRISA = 0x00;
+    
+    PORTA = 0x00;
+    PORTB = 0x00;
  
     Initialize_LCD_Screen();
     Init_Interrupt();
@@ -74,12 +83,13 @@ void main()
                 drawtext(Text_X, Text_Y, txt1[found], ST7735_WHITE, ST7735_BLACK,TS_1);
    
                 // add code to output color for the RGB LEDS
-            
-                char LED_Sel = found;
                 
-                char LED_Sel = found & 0b00011000 >> 3;
+                char LED_Sel = found / 7;
                 
-                *RGB_LED[LED_Sel] = (*RGB_LED[LED_Sel] & (~0b00000111 << off[LED_Sel])) | (found & (0b00000111 << off[LED_Sel]));
+                PORTA = 0;
+                PORTB = 0;
+                
+                *RGB_LED[LED_Sel] = (*RGB_LED[LED_Sel] & (~0b00000111 << off[LED_Sel])) | ((color2[found] & 0b00000111) << off[LED_Sel]);
                 
                 
                         
