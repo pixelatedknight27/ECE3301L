@@ -17,7 +17,7 @@
 
 
 extern unsigned char second, minute, hour, dow, day, month, year;
-extern unsigned char setup_second, setup_minute, setup_hour, setup_day, setup_month, setup_year;
+extern unsigned char setup_second, setup_minute, setup_hour, setup_dow, setup_day, setup_month, setup_year;
 extern unsigned char alarm_second, alarm_minute, alarm_hour, alarm_date;
 extern unsigned char setup_alarm_second, setup_alarm_minute, setup_alarm_hour;
 
@@ -36,17 +36,24 @@ void DS1621_Init()
 
 void DS3231_Read_Time()
 {
-    second = I2C_Write_Address_Read_One_Byte (DS3231_ADDR, 0x00, ACK);
-    minute = I2C_Write_Address_Read_One_Byte (DS3231_ADDR, 0x01, ACK);
-    hour = I2C_Write_Address_Read_One_Byte (DS3231_ADDR, 0x02, ACK);
-    dow = I2C_Write_Address_Read_One_Byte (DS3231_ADDR, 0x03, ACK);
-    day = I2C_Write_Address_Read_One_Byte (DS3231_ADDR, 0x04, ACK);
-    month = I2C_Write_Address_Read_One_Byte (DS3231_ADDR, 0x05, ACK);
-    year = I2C_Write_Address_Read_One_Byte (DS3231_ADDR, 0x06, ACK);
+    second  = I2C_Write_Address_Read_One_Byte (DS3231_ADDR, 0x00, ACK);
+    minute  = I2C_Read (ACK);
+    hour    = I2C_Read (ACK);
+    dow     = I2C_Read (ACK);
+    day     = I2C_Read (ACK);
+    month   = I2C_Read (ACK);
+    year    = I2C_Read (NAK);
 }
 
 void DS3231_Setup_Time()
 {
+    second = setup_second;
+    minute = setup_minute;
+    hour = setup_hour;
+    dow = setup_dow;
+    day = setup_day;
+    month = setup_month;
+    year = setup_year;
     I2C_Write_Address_Write_One_Byte(DS3231_ADDR, 0x00, second);
     I2C_Write_Address_Write_One_Byte(DS3231_ADDR, 0x01, minute);
     I2C_Write_Address_Write_One_Byte(DS3231_ADDR, 0x02, hour);

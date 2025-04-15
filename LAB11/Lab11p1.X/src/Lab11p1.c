@@ -30,7 +30,14 @@ char dow = 0x00;
 char day = 0x15;
 char month = 0x04;
 char year = 0x24;
-char setup_second, setup_minute, setup_hour, setup_day, setup_month, setup_year;
+
+char setup_second = 0x00;
+char setup_minute = 0x00;
+char setup_hour = 0x00; 
+char setup_dow = 0x03;
+char setup_day = 0x15;
+char setup_month = 0x04;
+char setup_year = 0x25;
 char alarm_second, alarm_minute, alarm_hour, alarm_date;
 char setup_alarm_second, setup_alarm_minute, setup_alarm_hour; 
 
@@ -94,8 +101,8 @@ void main() {
         DS3231_Read_Time();
         if (tempSecond != second) {
             tempSecond = second;
-            char tempC = DS1621_Read_Temp();
-            char tempF = (tempC * 9 / 5) + 32;
+            signed char tempC = DS1621_Read_Temp();
+            signed char tempF = (tempC * 9 / 5) + 32;
             printf("%02x:%02x:%02x %02x/%02x/%02x", hour, minute, second, month, day, year);
             printf(" Temperature = %d degreesC = %d degreesF\r\n", tempC, tempF);
         }
@@ -137,6 +144,11 @@ void main() {
                 Wait_One_Sec();
                 Deactivate_Buzzer();
                 PORTDbits.RD7 = 0;
+                
+                if(found == 8){
+                    printf("Timer Reset!\r\n");
+                    DS3231_Setup_Time();
+                }
 
             }
         }
