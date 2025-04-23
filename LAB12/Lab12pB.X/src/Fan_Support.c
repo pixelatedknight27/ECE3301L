@@ -9,7 +9,10 @@ extern char duty_cycle;
 
 int get_RPM()
 {
-
+    int RPS = TMR3L / 2; // read the count. Since there are 2 pulses per rev
+     // then RPS = count /2
+    TMR3L = 0; // clear out the count
+    return (RPS * 60); // return RPM = 60 * RPS 
 }
 
 void Toggle_Fan()

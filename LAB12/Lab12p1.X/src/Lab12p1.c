@@ -79,8 +79,8 @@ void main() {
     PORTB = 0x00;
     PORTC = 0x00;
     
-    PORTDbits.RD6 = 0;
-    PORTCbits.RC2 = 0;
+    PORTDbits.RD6 = 1;
+    PORTCbits.RC2 = 1;
  
     
 

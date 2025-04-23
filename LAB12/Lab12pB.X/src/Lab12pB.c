@@ -79,13 +79,13 @@ void main() {
     PORTB = 0x00;
     PORTC = 0x00;
 
-    PORTDbits.RD6 = 0;
+    PORTDbits.RD6 = 1;
     PORTCbits.RC2 = 0;
 
 
 
     Initialize_LCD_Screen();
-    T3CON = 0x02;
+    T3CON = 0x03;
     I2C_Init(100000);
     DS1621_Init();
     DS3231_Setup_Time();
@@ -112,11 +112,13 @@ void main() {
             tempSecond = second;
             signed char tempC = DS1621_Read_Temp();
             signed char tempF = (tempC * 9 / 5) + 32;
-            char rpm = get_RPM();
+            int rpm = get_RPM();
             Set_DC_RGB(duty_cycle);
             Set_RPM_RGB(rpm);
+            do_update_pwm(duty_cycle);
             printf("%02x:%02x:%02x %02x/%02x/%02x", hour, minute, second, month, day, year);
             printf(" Temperature = %d degreesC = %d degreesF\r\n", tempC, tempF);
+            printf ("RPM = %d dc = %d\r\n", rpm, duty_cycle); 
         }
 
         if (Nec_OK == 1) {
