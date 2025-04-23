@@ -17,29 +17,51 @@ int get_RPM()
 
 void Toggle_Fan()
 {
- 
+ if (FAN == 1)
+        Turn_On_Fan();
+    else
+        Turn_Off_Fan();
 }
 
 void Turn_Off_Fan()
 {
-
+FAN = 0;
+    FAN_EN = 0;
+    FANON_LED = 0;
 }
 
 void Turn_On_Fan()
 {
- 
+ FAN = 1;
+    do_update_pwm(duty_cycle);
+    FAN_EN = 1;
+    FANON_LED = 1;
 }
 
 void Increase_Speed()
 {
-
+if (duty_cycle == 100) {
+        Do_Beep();
+        Do_Beep();
+        do_update_pwm(duty_cycle);
+    } else {
+        duty_cycle = duty_cycle + 5;
+        do_update_pwm(duty_cycle);
+    }
 
 
 }
 
 void Decrease_Speed()
 {
- 
+ if (duty_cycle == 0) {
+        Do_Beep();
+        Do_Beep();
+        do_update_pwm(duty_cycle);
+    } else {
+        duty_cycle = duty_cycle - 5;
+        do_update_pwm(duty_cycle);
+    }
 }
 
 void do_update_pwm(char duty_cycle)
