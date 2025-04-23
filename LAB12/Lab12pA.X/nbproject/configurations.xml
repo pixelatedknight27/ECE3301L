@@ -26,8 +26,8 @@
       <itemPath>src/utils.c</itemPath>
       <itemPath>src/I2C_Soft.c</itemPath>
       <itemPath>src/I2C_Support.c</itemPath>
-      <itemPath>src/Lab12p1.c</itemPath>
       <itemPath>src/Fan_Support.c</itemPath>
+      <itemPath>src/Lab12pA.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
