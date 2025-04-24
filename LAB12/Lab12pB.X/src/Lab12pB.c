@@ -46,6 +46,8 @@ short Nec_OK = 0;
 char Nec_Button;
 extern unsigned long long Nec_code;
 
+extern char duty_cycle;
+
 typedef enum {
     OFF, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE
 } colors;
@@ -95,10 +97,8 @@ void main() {
     // Clear code
 
     Nec_code = 0x0;
-    FAN_EN = 1;
-    FANON_LED = 1;
-    FAN_PWM = 1;
-    char duty_cycle = 50;
+    Turn_Off_Fan();
+    duty_cycle = 75;
     do_update_pwm(duty_cycle);
     while (1) {
 
@@ -106,7 +106,7 @@ void main() {
         //        signed char tempF = (tempC * 9 / 5) + 32;
         //        printf(" Temperature = %d degreesC = %d degreesF\r\n", tempC, tempF);
         //        Wait_One_Sec_Soft();
-
+        do_update_pwm(duty_cycle);
         DS3231_Read_Time();
         if (tempSecond != second) {
             tempSecond = second;
@@ -115,7 +115,7 @@ void main() {
             int rpm = get_RPM();
             Set_DC_RGB(duty_cycle);
             Set_RPM_RGB(rpm);
-            do_update_pwm(duty_cycle);
+            
             printf("%02x:%02x:%02x %02x/%02x/%02x", hour, minute, second, month, day, year);
             printf(" Temperature = %d degreesC = %d degreesF\r\n", tempC, tempF);
             printf ("RPM = %d dc = %d\r\n", rpm, duty_cycle); 
@@ -142,11 +142,11 @@ void main() {
 
                 // add code to output color for the RGB LEDS
 
-                char LED_Sel = found / 7;
+//              char LED_Sel = found / 7; 
 
-                PORTA = 0;
-                PORTB = 0;
-                //                PORTCbits.RC0 = nums[found];
+//                PORTA = 0;
+//                PORTB = 0;
+                PORTDbits.RD2 = nums[found];
 
 
 
@@ -163,6 +163,20 @@ void main() {
                     printf("Timer Reset!\r\n");
                     DS3231_Setup_Time();
                 }
+                
+                else if (found == 5){
+                    Toggle_Fan();
+                }
+                
+                else if (found == 6){
+                    Decrease_Speed();
+                }
+                
+                else if (found == 7){
+                    Increase_Speed();
+                }
+                
+                
 
             }
         }

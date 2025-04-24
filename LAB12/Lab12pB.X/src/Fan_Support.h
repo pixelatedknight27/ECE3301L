@@ -10,6 +10,6 @@ void Set_RPM_RGB(int);
 void Set_TempC_RGB(signed char);
 
 
-#define FAN_EN          PORTBbits.RB2
+#define FAN_EN          PORTDbits.RD6
 #define FAN_PWM         PORTCbits.RC2
-#define FANON_LED       PORTBbits.RB4
+#define FANON_LED       PORTDbits.RD2

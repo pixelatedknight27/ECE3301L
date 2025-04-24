@@ -3,8 +3,8 @@
 #include "Fan_Support.h"
 #include "stdio.h"
 
-extern char FAN;
-extern char duty_cycle;
+char FAN;
+char duty_cycle;
 
 
 int get_RPM()
@@ -17,7 +17,7 @@ int get_RPM()
 
 void Toggle_Fan()
 {
- if (FAN == 1)
+ if (FAN == 0)
         Turn_On_Fan();
     else
         Turn_Off_Fan();
@@ -25,7 +25,7 @@ void Toggle_Fan()
 
 void Turn_Off_Fan()
 {
-FAN = 0;
+    FAN = 0;
     FAN_EN = 0;
     FANON_LED = 0;
 }
@@ -85,18 +85,21 @@ void Set_DC_RGB(int duty_cycle)
     if (num > 7) {
         num = 7;
     }
-    PORTA = 0x07 & arrayDC[num];
+    PORTA = (PORTA & 0b11111000) | arrayDC[num];
 }
 
 void Set_RPM_RGB(int rpm)
 {
-    int test = rpm / 500;
-    if (rpm == 0) {
-        PORTA = 0x00;
-    } else {
-        char arrayRPM[7] = {0x08, 0x10, 0x18, 0x20, 0x28, 0x30, 0x38};
-        PORTA = 0x38 & arrayRPM[test];
+    int test =  rpm / 514;
+    if(test > 7){
+        test = 7;
     }
+    
+    char arrayRPM[8] = {0x00, 0x08, 0x10, 0x18, 0x20, 0x28, 0x30, 0x38};
+    PORTB = (PORTB & 0b11000111) | arrayRPM[test];
+        
+        
+    printf("test: %d\r\n", test);
 }
 
 
