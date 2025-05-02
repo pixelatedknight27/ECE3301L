@@ -12,23 +12,34 @@
 #define ACK     1
 #define NAK     0
 
+#define DS1621_ADDR     0x48
+#define DS3231_ADDR     0x68
 
 extern unsigned char second, minute, hour, dow, day, month, year;
 extern unsigned char setup_second, setup_minute, setup_hour, setup_day, setup_month, setup_year;
 
-void DS1621_Init()
-{
-    // put original code         
-}
+extern char I2C_Write_Cmd_Read_One_Byte(char Device, char Cmd);
 
 int DS1621_Read_Temp()
 {
-    // put original code
+    return (I2C_Write_Cmd_Read_One_Byte (DS1621_ADDR, READ_TEMP));
+}
+
+void DS1621_Init()
+{
+    I2C_Write_Cmd_Write_Data (DS1621_ADDR, ACCESS_CFG, CONT_CONV);
+    I2C_Write_Cmd_Only(DS1621_ADDR, START_CONV);
 }
 
 void DS3231_Read_Time()
 {
-    // put original code                                         // End I2C protocol
+    second  = I2C_Write_Address_Read_One_Byte (DS3231_ADDR, 0x00, ACK);
+    minute  = I2C_Read (ACK);
+    hour    = I2C_Read (ACK);
+    dow     = I2C_Read (ACK);
+    day     = I2C_Read (ACK);
+    month   = I2C_Read (ACK);
+    year    = I2C_Read (NAK);
 }
 
 void DS3231_Write_Time()
@@ -62,7 +73,7 @@ char Address_7 = 0x07;
 char Address_E = 0x0E;  
 char control_E;
 
-    control_E = I2C_Write_Address_Read_One_Byte(Device, Address_E);
+    control_E = I2C_Write_Address_Read_One_Byte(Device, Address_E, NAK);
     control_E = control_E & 0x01;
     control_E = control_E | 0x25; 
     I2C_Write_Address_Write_One_Byte(Device, Address_E, control_E);
