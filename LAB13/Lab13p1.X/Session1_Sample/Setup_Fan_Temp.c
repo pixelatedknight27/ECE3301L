@@ -74,7 +74,7 @@ void Setup_Fan_Temp(void)
                 
                 if (found == EQ) Exit_Setup_Fan_Temp();
                 if (found == Plus) Increase_Fan_Temp();
-                if (found == Minus) Decrease_Fan_Temp()();
+                if (found == Minus) Decrease_Fan_Temp();
                 
 
 				// add if code to handle  'EQ', 'Plus', 'Minus' - See routines below

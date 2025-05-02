@@ -7,3 +7,4 @@ void INT2_isr(void);
 void TIMER1_isr(void);
 void Init_Interrupt(void);
 void force_nec_state0();
+void Reset_Nec_State();

@@ -84,8 +84,8 @@ void Turn_On_Fan() {
 void Increase_Duty_Cycle() {
     if (FANMODE == 0) {
         if (duty_cycle == 100) {
-            DO_BEEP();
-            DO_BEEP();
+            Do_Beep();
+            Do_Beep();
             do_update_pwm(duty_cycle);
         } else {
             duty_cycle = duty_cycle + 5;
@@ -101,8 +101,8 @@ void Increase_Duty_Cycle() {
 
 void Decrease_Duty_Cycle() {
     if (duty_cycle == 0) {
-        DO_BEEP();
-        DO_BEEP();
+        Do_Beep();
+        Do_Beep();
         do_update_pwm(duty_cycle);
     } else {
         duty_cycle = duty_cycle - 5;

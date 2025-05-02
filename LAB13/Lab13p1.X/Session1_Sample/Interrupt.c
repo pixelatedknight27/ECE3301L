@@ -8,7 +8,7 @@ unsigned char bit_count;
 unsigned int Time_Elapsed;
 
 extern unsigned char Nec_state;
-extern short Nec_OK;
+extern short Nec_ok;
 unsigned long long Nec_code;
 
 extern char Nec_Button;
@@ -57,6 +57,12 @@ void force_nec_state0() {
     T1CONbits.TMR1ON = 0;
 }
 
+void Reset_Nec_State()
+{
+    Nec_state = 0;
+    T1CONbits.TMR1ON = 0;
+}
+
 void INT1_isr() {
     INTCONbits.INT0IF = 0; // Clear external interrupt INT0IF
     if (Nec_state != 0) {
@@ -92,7 +98,7 @@ void INT1_isr() {
                 PORTE = (PORTE & (0xF8)) | (Nec_state & (0x07));
 
             } else {
-                Reset_Nec_state();
+                Reset_Nec_State();
             }
 
             INTCON2bits.INTEDG0 = 0; // Change Edge interrupt of INT 0 to High to Low
@@ -108,7 +114,7 @@ void INT1_isr() {
                 PORTE = (PORTE & (0xF8)) | (Nec_state & (0x07));
 
             } else {
-                Reset_Nec_state();
+                Reset_Nec_State();
             }
 
             INTCON2bits.INTEDG0 = 1; // Change Edge interrupt of INT 0 to Low to High
@@ -148,7 +154,7 @@ void INT1_isr() {
 
                     PORTE = (PORTE & (0xF8)) | (Nec_state & (0x07));
 
-                    Nec_OK = 1;
+                    Nec_ok = 1;
 
                     INT0IE = 0;
                 } else {
@@ -186,6 +192,8 @@ void INT2_isr() {
     INT2_flag = 1;
 
 }
+
+
 
 
 
