@@ -37,7 +37,7 @@ void Monitor_Fan()
 // if FAN_TIMER_TIME is not zero, decrement it by 1
 // after check is the new value of FAN_TIMER_TIME is 0. If so, set the FAN_TIMER_MODE to be 0 and call the routine to turn off
 // fan
-
+}
 
 int get_RPM()
 {
@@ -77,9 +77,7 @@ void Decrease_Duty_Cycle()
 {
 // check if duty_cycle is already at 0. If so, call DO_BEEP() twice and call do_update_pwm(duty_cycle)
 // if not at 0, then subtract 5 to duty_cycle and also call do_update_pwm(duty_cycle)
-    }
-        }
-    }
+
 }
 
 void Do_Change_Fan_Timer_Mode_Plus()

@@ -133,16 +133,16 @@ void Update_Screen(void)
 
         time_Txt[0]  = (hour>>4)  + '0';                    // Hour MSD
         time_Txt[1]  = (hour & 0x0f)+ '0';                  // Hour LSD
-        time_Txt[3]  = // add code here;               		// Minute MSD
-        time_Txt[4]  = // add code here;          			// Minute LSD
-        time_Txt[6]  = // add code here;               		// Second MSD
-        time_Txt[7]  = // add code here;          			// Second LSD
-        date_Txt[0]  = // add code here;                 	// Month MSD
-        date_Txt[1]  = // add code here;           			// Month LSD
-        date_Txt[3]  = // add code here;                   	// Day MSD
-        date_Txt[4]  = // add code here;                 	// Day LSD
-        date_Txt[6]  = // add code here;                  	// Year MSD
-        date_Txt[7]  = // add code here;           			// Year LSD
+        time_Txt[3]  = 0;// add code here;               		// Minute MSD
+        time_Txt[4]  = 0;// add code here;          			// Minute LSD
+        time_Txt[6]  = 0;// add code here;               		// Second MSD
+        time_Txt[7]  = 0;// add code here;          			// Second LSD
+        date_Txt[0]  = 0;// add code here;                 	// Month MSD
+        date_Txt[1]  = 0;// add code here;           			// Month LSD
+        date_Txt[3]  = 0;// add code here;                   	// Day MSD
+        date_Txt[4]  = 0;// add code here;                 	// Day LSD
+        date_Txt[6]  = 0;// add code here;                  	// Year MSD
+        date_Txt[7]  = 0;// add code here;           			// Year LSD
 
         if (FAN_TIMER_MODE == 0)
         {
@@ -162,12 +162,12 @@ void Update_Screen(void)
         }    
 
         Fan_Timer_Txt[0] = FAN_TIMER_TIME/100 + '0';
-        Fan_Timer_Txt[1] = // add code here;
-        Fan_Timer_Txt[2] = // add code here;
+        Fan_Timer_Txt[1] = 0;// add code here;
+        Fan_Timer_Txt[2] = 0;// add code here;
 
         Fan_Set_Temp_Txt[0] = fan_set_temp/100 + '0';
-        Fan_Set_Temp_Txt[1] = // add code here;
-        Fan_Set_Temp_Txt[2] = // add code here;
+        Fan_Set_Temp_Txt[1] = 0;// add code here;
+        Fan_Set_Temp_Txt[2] = 0;// add code here;
 
         if (FANMODE == 1)
         {
@@ -189,17 +189,17 @@ void Update_Screen(void)
 
 
         DC_Txt[0] = duty_cycle/100  + '0';
-        DC_Txt[1] = // add code here; 
-        DC_Txt[2] = // add code here;   
+        DC_Txt[1] = 0;// add code here; 
+        DC_Txt[2] = 0;// add code here;   
 
         Volt_Txt[0] = ((int)  volt        ) + '0';
         Volt_Txt[2] = (( (int) (volt*10 ) )%10) + '0';
         Volt_Txt[3] = (( (int) (volt*100) )%10) + '0';
 
         RPM_Txt[0] = rpm/1000  + '0';
-        RPM_Txt[1] = // add code here;  
-        RPM_Txt[2] = // add code here; 
-        RPM_Txt[3] = // add code here;           
+        RPM_Txt[1] = 0;// add code here;  
+        RPM_Txt[2] = 0;// add code here; 
+        RPM_Txt[3] = 0;// add code here;           
 
         drawtext(data_tempc_x, data_tempc_y, tempC_Txt , ST7735_YELLOW , ST7735_BLACK , TS_2);       
         drawtext(data_tempf_x, data_tempf_y, tempF_Txt , ST7735_YELLOW , ST7735_BLACK , TS_2);

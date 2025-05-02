@@ -255,20 +255,20 @@ void Update_Setup_Time_Screen(void)
     setup_time[0]  = (setup_hour/10)  + '0';
     setup_time[1]  = (setup_hour%10)  + '0';  
 	
-    setup_time[3]  = // add code here for minute ten;    
-	setup_time[4]  = // add code here for minute one;                  
+    setup_time[3]  = 0;// add code here for minute ten;    
+	setup_time[4]  = 0;// add code here for minute one;                  
     
-	setup_time[6]  = // add code here for second ten;                       
-	setup_time[7]  = // add code here for second one;                       
+	setup_time[6]  = 0;// add code here for second ten;                       
+	setup_time[7]  = 0;// add code here for second one;                       
     
-	setup_date[0]  = // add code here for month ten;                       
-	setup_date[1]  = // add code here for month one;                        
+	setup_date[0]  = 0;// add code here for month ten;                       
+	setup_date[1]  = 0;// add code here for month one;                        
     
-	setup_date[3]  = // add code here for day ten ;                          
-	setup_date[4]  = // add code here for day one;                         
+	setup_date[3]  = 0;// add code here for day ten ;                          
+	setup_date[4]  = 0;// add code here for day one;                         
     
-	setup_date[6]  = // add code here for year ten ;                         
-    setup_date[7]  = // add code here for year one;                         
+	setup_date[6]  = 0;// add code here for year ten ;                         
+    setup_date[7]  = 0;// add code here for year one;                         
 
     drawtext(data_time_x, data_time_y, setup_time, ST7735_CYAN, ST7735_BLACK, TS_2);
     drawtext(data_date_x, data_date_y, setup_date, ST7735_GREEN, ST7735_BLACK, TS_2);

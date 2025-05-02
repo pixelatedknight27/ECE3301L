@@ -17,10 +17,9 @@ void i2cLowScl(void);
 void i2cNack(void);
 void i2cAck(void);
 
-#define SCL_PIN PORT?bits.R??
-#define SCL_DIR TRIS?bits.R??
-
-#define SDA_PIN PORT?bits.R??
-#define SDA_DIR TRIS?bits.R??
+#define SCL_PIN PORTDbits.RD3
+#define SCL_DIR TRISDbits.RD3
+#define SDA_PIN PORTDbits.RD4
+#define SDA_DIR TRISDbits.RD4 
 
 

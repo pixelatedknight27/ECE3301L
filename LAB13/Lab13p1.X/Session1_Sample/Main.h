@@ -3,10 +3,10 @@ void Set_D2_RGB(int rpm);
 
 #define _XTAL_FREQ      8000000
 
-#define Semester        ?               // Type 0 for Sp, 1 for Fa
-#define Year            ??              // Type 2 digits year
-#define Session_Number  ?               // Type Session Number 1 through 5
-#define Table_Number    ??              // Type Table Number from 01 through 14
+#define Semester        2               // Type 0 for Sp, 1 for Fa
+#define Year            2025              // Type 2 digits year
+#define Session_Number  1               // Type Session Number 1 through 5
+#define Table_Number    3              // Type Table Number from 01 through 14
 
 #define ACK             1
 #define NAK             0
@@ -16,7 +16,7 @@ void Set_D2_RGB(int rpm);
 #define READ_TEMP       0xAA
 #define CONT_CONV       0x02
 
-#define KEY_PRESSED     PORT?bits.R??           // <-- Need to change the assignments here
+#define KEY_PRESSED     PORTDbits.RD7           // <-- Need to change the assignments here
 
 #define Ch_Minus        0
 #define Channel         1

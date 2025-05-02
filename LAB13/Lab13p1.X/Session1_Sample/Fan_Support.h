@@ -14,8 +14,8 @@ void Decrease_Duty_Cycle();
 void Do_Change_Fan_Timer_Mode_Plus();
 void Do_Change_Fan_Timer_Mode_Minus();
 
-#define FAN_EN          PORT?bits.R??           // <-- Need to change the assignments here
-#define FANON_LED       PORT?bits.R??           // <-- Need to change the assignments here
+#define FAN_EN          PORTDbits.RD6           // <-- Need to change the assignments here
+#define FANON_LED       PORTDbits.RD2           // <-- Need to change the assignments here
 
 
 #define FAN_TIMER_MODE0 0
