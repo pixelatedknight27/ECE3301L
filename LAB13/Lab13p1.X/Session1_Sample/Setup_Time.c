@@ -87,14 +87,14 @@ void Do_Setup_Time(void)
                 Do_Beep_Good(); 
                 if (found == Prev) Go_Prev_Field();
                 
-                if (found == Next) 		// add code here to check if 'Next' then use Go_Next_Field(); ;
+                if (found == Next) Go_Next_Field();		// add code here to check if 'Next' then use Go_Next_Field(); ;
                
-                if (found == Play_Pause)// add code here to check if 'Play_Pause' then use Do_Save_New_Time();
-                if (found == EQ) 		// add code here to check if 'EQ' then use Exit_Time_Setup();
+                if (found == Play_Pause) Do_Save_New_Time();// add code here to check if 'Play_Pause' then use Do_Save_New_Time();
+                if (found == EQ) Exit_Time_Setup();		// add code here to check if 'EQ' then use Exit_Time_Setup();
                 
-                if (found == Minus) 	// add code here to check if 'Minus' then use Decrease_Time();
+                if (found == Minus) Decrease_Time();	// add code here to check if 'Minus' then use Decrease_Time();
                
-                if (found == Plus)  	// add code here to check if 'Plus' then use Increase_Time();
+                if (found == Plus) Increase_Time(); 	// add code here to check if 'Plus' then use Increase_Time();
                 found = 0xff;
              }
              else
@@ -115,26 +115,36 @@ void Increase_Time()
                     break;
 
                 case 1:
+                    setup_minute++;
+                    if (setup_minute == 60) setup_minute = 0;
                     // add code here to handle minute increment - also check if new minute is 60. If so, make it 0
 
                     break;
 
                 case 2:
+                    setup_second++;
+                    if (setup_second == 60) setup_second = 0;
                     // add code here to handle second increment - also check if new second is 60. If so, make it 0
 
                     break;
 
                 case 3:
+                    setup_month++;
+                    if (setup_month == 13) setup_month = 1;
                     // add code here to handle month increment - also check if new month is 13. If so, make it 1
 
                     break;
 
                 case 4:
+                    setup_day++;
+                    if (setup_day == 32) setup_day = 1;
                     // add code here to handle day increment - also check if new day is 32. If so, make it 1  
 
                     break;
 
                 case 5:
+                    setup_year++;
+                    if (setup_year == 100) setup_minute = 0;
                     // add code here to handle year increment - also check if new year is 100. If so, make it 0
                     setup_year++;
                     break;
@@ -154,25 +164,35 @@ void Decrease_Time()
                     else --setup_hour;
                     break;
                 case 1:
+                    if (setup_minute == 0) setup_minute = 59;
+                    else --setup_minute;
 					// add code here to check is minute is at 0. If not, decrement. If yes, if so, make it 59
                     break;
 
                 case 2:
+                    if (setup_second == 0) setup_second = 59;
+                    else --setup_second;
                     // add code here to check is second is at 0. If not, decrement. If yes, if so, make it 59
 
                     break;
 
                 case 3:
+                    if (setup_month == 1) setup_month = 12;
+                    else --setup_month;
                     // add code here to check is month is at 1. If not, decrement. If yes, if so, make it 12
 
                     break;
 
                 case 4:
+                    if (setup_day == 1) setup_day = 31;
+                    else --setup_day;
                     // add code here to check is day is at 1. If not, decrement. If yes, if so, make it 31
   
                     break;
 
                 case 5:
+                    if (setup_year == 00) setup_year = 99;
+                    else --setup_year;
                     // add code here to check is year is at 00. If not, decrement. If yes, if so, make it 99
 
                     break;
@@ -255,20 +275,20 @@ void Update_Setup_Time_Screen(void)
     setup_time[0]  = (setup_hour/10)  + '0';
     setup_time[1]  = (setup_hour%10)  + '0';  
 	
-    setup_time[3]  = 0;// add code here for minute ten;    
-	setup_time[4]  = 0;// add code here for minute one;                  
+    setup_time[3]  = (setup_minute/10)  + '0';// add code here for minute ten;    
+	setup_time[4]  = (setup_minute%10)  + '0';// add code here for minute one;                  
     
-	setup_time[6]  = 0;// add code here for second ten;                       
-	setup_time[7]  = 0;// add code here for second one;                       
+	setup_time[6]  = (setup_second/10)  + '0';// add code here for second ten;                       
+	setup_time[7]  = (setup_second%10)  + '0';// add code here for second one;                       
     
-	setup_date[0]  = 0;// add code here for month ten;                       
-	setup_date[1]  = 0;// add code here for month one;                        
+	setup_date[0]  = (setup_month/10)  + '0';// add code here for month ten;                       
+	setup_date[1]  = (setup_month%10)  + '0';// add code here for month one;                        
     
-	setup_date[3]  = 0;// add code here for day ten ;                          
-	setup_date[4]  = 0;// add code here for day one;                         
+	setup_date[3]  = (setup_day/10)  + '0';// add code here for day ten ;                          
+	setup_date[4]  = (setup_day%10)  + '0';// add code here for day one;                         
     
-	setup_date[6]  = 0;// add code here for year ten ;                         
-    setup_date[7]  = 0;// add code here for year one;                         
+	setup_date[6]  = (setup_year/10)  + '0';// add code here for year ten ;                         
+    setup_date[7]  = (setup_year&10)  + '0';// add code here for year one;                         
 
     drawtext(data_time_x, data_time_y, setup_time, ST7735_CYAN, ST7735_BLACK, TS_2);
     drawtext(data_date_x, data_date_y, setup_date, ST7735_GREEN, ST7735_BLACK, TS_2);
