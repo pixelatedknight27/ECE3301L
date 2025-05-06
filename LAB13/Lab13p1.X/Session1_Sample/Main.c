@@ -173,7 +173,45 @@ void main()
 //	 case EQ: check if FANMODE is on. If so, change it to 0 else change it to 1. In other words, toggle FANMODE;
 //   case default: call Do_Beep_Bad(); to indicate illegal remote button
     if(check_for_button_input() && SYSTEM_ON){
-        printf("found: %x\r\n", found);
+        printf("found: %d\r\n", found);
+        switch(found){
+            case(0):
+                Do_Beep_Good();
+                Do_Setup_Time();
+                break;
+            case(1):
+                Do_Beep_Good();
+                Setup_Fan_Temp();
+                break;
+            case(3):
+                Do_Beep_Good();
+                Do_Change_Fan_Timer_Mode_Minus();
+                break;
+            case(4):
+                Do_Beep_Good();
+                Do_Change_Fan_Timer_Mode_Plus();
+                break;
+            case(5):
+                Do_Beep_Good();
+                Toggle_Fan();
+                break;
+            case(7):
+                Do_Beep_Good();
+                Increase_Duty_Cycle();
+                break;
+            case(8):
+                Do_Beep_Good();
+                if(FANMODE == 1){
+                    FANMODE = 0;
+                }
+                else{
+                    FANMODE = 1;
+                }
+                break;
+            default:
+                Do_Beep_Bad();
+                break;
+        }
     }
 // Task #2
 // using another if statement to check if both either variable INT1flag or light_flag  is 1.
