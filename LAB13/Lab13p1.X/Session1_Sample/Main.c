@@ -133,7 +133,7 @@ void main()
  
 
             volt = Read_Volt(0);
-            if (volt > 3.000) light_flag = 1;
+            if (volt > 2.000) light_flag = 1;
             tempC = DS1621_Read_Temp();
             tempF = (tempC * 9 / 5) + 32;
             Set_D1_RGB(duty_cycle);
@@ -147,13 +147,19 @@ void main()
 
             Update_Screen();
         }
+        
+        if((INT0_flag | light_flag) && SYSTEM_ON == 0){
+            SYSTEM_ON = 1;
+            fillScreen(ST7735_BLACK);
+        }
  
 // add code here to do the following tasks:
 
 // Task #1
-// The function 'check_for_button_input()' is provided to check if a remote buttong has been pressed. Write a conditional if statement to check when that mentioned function
+// The function 'check_for_button_input()' is provided to check if a remote buttong has been pressed. 
+// Write a conditional if statement to check when that mentioned function
 // returns a 1 and the variable 'SYSTEM_ON' is 1, then do the following check:
-
+        
 // first printout using printf the value of 'found'
 // Next, set the variable Nec_ok = 0 so acknowledge receipt of the just pressed remote button
 // Then, use a case statement that will decide using the variable 'found'
@@ -166,7 +172,9 @@ void main()
 //   case Plus: generate a good beep, then call the function Increase_Duty_Cycle();
 //	 case EQ: check if FANMODE is on. If so, change it to 0 else change it to 1. In other words, toggle FANMODE;
 //   case default: call Do_Beep_Bad(); to indicate illegal remote button
-
+    if(check_for_button_input() && SYSTEM_ON){
+        printf("found: %x\r\n", found);
+    }
 // Task #2
 // using another if statement to check if both either variable INT1flag or light_flag  is 1.
 // If either variable is 1, clear both variables to 0. Then check if the SYSTEM_ON is 1. If 1, print a message on TeraTerm that the system is now turn off. See SYSTEM_ON to 0, turn off

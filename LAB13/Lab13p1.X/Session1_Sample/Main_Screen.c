@@ -215,6 +215,11 @@ void Update_Screen(void)
         drawtext(data_volt_x, data_volt_y, Volt_Txt, ST7735_GREEN, ST7735_BLACK, TS_1);    
         drawtext(data_rpm_x, data_rpm_y, RPM_Txt, ST7735_GREEN, ST7735_BLACK, TS_1);
     }
+    else
+    {
+        strcpy(txt, "SYSTEM OFF");
+        drawtext(sysoff_x  , sysoff_y , txt, ST7735_MAGENTA, ST7735_BLACK, TS_2);
+    }  
         
 }
 

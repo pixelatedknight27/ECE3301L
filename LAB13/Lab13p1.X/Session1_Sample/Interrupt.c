@@ -64,7 +64,7 @@ void Reset_Nec_State()
 }
 
 void INT1_isr() {
-    INTCONbits.INT0IF = 0; // Clear external interrupt INT0IF
+    INTCON3bits.INT1IF = 0; // Clear external interrupt INT0IF
     if (Nec_state != 0) {
         Time_Elapsed = (TMR1H << 8) | TMR1L; // Store Timer1 value
         TMR1H = 0; // Reset Timer1
@@ -85,7 +85,7 @@ void INT1_isr() {
             Nec_state = 1; // Set Nec_State to state 1
             PORTE = (PORTE & (0xF8)) | (Nec_state & (0x07));
 
-            INTCON2bits.INTEDG0 = 1; // Change Edge interrupt of INT 0 to Low to High    
+            INTCON2bits.INTEDG1 = 1; // Change Edge interrupt of INT 0 to Low to High    
 
             return;
         }
@@ -101,7 +101,7 @@ void INT1_isr() {
                 Reset_Nec_State();
             }
 
-            INTCON2bits.INTEDG0 = 0; // Change Edge interrupt of INT 0 to High to Low
+            INTCON2bits.INTEDG1 = 0; // Change Edge interrupt of INT 0 to High to Low
 
             return;
         }
@@ -117,7 +117,7 @@ void INT1_isr() {
                 Reset_Nec_State();
             }
 
-            INTCON2bits.INTEDG0 = 1; // Change Edge interrupt of INT 0 to Low to High
+            INTCON2bits.INTEDG1 = 1; // Change Edge interrupt of INT 0 to Low to High
 
             return;
         }
@@ -133,7 +133,7 @@ void INT1_isr() {
                 Reset_Nec_State();
             }
 
-            INTCON2bits.INTEDG0 = 0; // Change Edge interrupt of INT 0 to High to Low
+            INTCON2bits.INTEDG1 = 0; // Change Edge interrupt of INT 0 to High to Low
 
             return;
         }
@@ -169,7 +169,7 @@ void INT1_isr() {
                 Reset_Nec_State();
             }
 
-            INTCON2bits.INTEDG0 = 1; // Change Edge interrupt of INT 0 to Low to High
+            INTCON2bits.INTEDG1 = 1; // Change Edge interrupt of INT 0 to Low to High
 
             return;
         }
