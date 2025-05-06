@@ -39,12 +39,25 @@ void Monitor_Fan() {
     // task #1: check if FANMODE is 1
     //   if so, then the value of the variable 'duty_cycle' through the call of the function get_duty_cycle (tempF, fan_set_temp);
     //   then call the function do_update_pwm(duty_cycle);
+    if (FANMODE = 1) {
+        duty_cycle = get_duty_cycle(tempF, fan_set_temp);
+        do_update_pwm(duty_cycle);
+    }
 
     // task #2: check if FAN_TIMER_MODE is not zero.
     // If not 0, then check if FAN_TIMER_TIME is not zero.
     // if FAN_TIMER_TIME is not zero, decrement it by 1
     // after check is the new value of FAN_TIMER_TIME is 0. If so, set the FAN_TIMER_MODE to be 0 and call the routine to turn off
     // fan
+    if (FAN_TIMER_MODE != 0) {
+        if (FAN_TIMER_TIME != 0) {
+            FAN_TIMER_TIME--;
+        }
+        if (FAN_TIMER_TIME = 0) {
+            FAN_TIMER_MODE = 0;
+            Turn_Off_Fan();
+        }
+    }
 }
 
 int get_RPM() {
@@ -87,7 +100,8 @@ void Increase_Duty_Cycle() {
             Do_Beep();
             Do_Beep();
             do_update_pwm(duty_cycle);
-        } else {
+        }
+        else {
             duty_cycle = duty_cycle + 5;
             do_update_pwm(duty_cycle);
         }

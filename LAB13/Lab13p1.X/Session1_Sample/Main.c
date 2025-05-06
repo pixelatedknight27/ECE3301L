@@ -220,7 +220,26 @@ void main()
 // On the other hand, if SYSTEM_ON is 0, then print a message on TT to say that the system is now on and then set the
 // variable SYSTEM_ON to 1 and also call the function Initialize_Screen()
 
-
+        if(INT1F==1 ||light_flag==1)
+        {
+            INT1F=0;
+            light_flag=0;
+            if(SYSTEM_ON==1)
+            {
+                printf("System in now turned OFF\r\n");
+                SYSTEM_ON=0;
+                Turn_Off_Fan();
+                FAN_TIMER_MODE=0;
+                FAN_TIMER_TIME=0;
+                Initialize_Screen();
+            }
+            else
+            {
+                printf("System in now turned ON\r\n");
+                SYSTEM_ON=1;
+                Initialize_Screen();
+            }
+        }
 
         
     }
