@@ -22,7 +22,7 @@
 #pragma config WDT=OFF
 #pragma config LVP=OFF
 
-void Set_D1_RGB(char);
+void Set_D1_RGB(int);
 void Set_D2_RGB(int);
 void test_alarm();
 
@@ -148,10 +148,10 @@ void main()
             Update_Screen();
         }
         
-        if((INT0_flag | light_flag) && SYSTEM_ON == 0){
-            SYSTEM_ON = 1;
-            fillScreen(ST7735_BLACK);
-        }
+//        if((INT0_flag | light_flag) && SYSTEM_ON == 0){
+//            SYSTEM_ON = 1;
+//            fillScreen(ST7735_BLACK);
+//        }
  
 // add code here to do the following tasks:
 
@@ -195,6 +195,10 @@ void main()
                 Do_Beep_Good();
                 Toggle_Fan();
                 break;
+            case(6):
+                Do_Beep_Good();
+                Decrease_Duty_Cycle();
+                break;    
             case(7):
                 Do_Beep_Good();
                 Increase_Duty_Cycle();
@@ -207,6 +211,7 @@ void main()
                 else{
                     FANMODE = 1;
                 }
+                printf("FANMODE: %d\r\n", FANMODE);
                 break;
             default:
                 Do_Beep_Bad();
@@ -220,9 +225,9 @@ void main()
 // On the other hand, if SYSTEM_ON is 0, then print a message on TT to say that the system is now on and then set the
 // variable SYSTEM_ON to 1 and also call the function Initialize_Screen()
 
-        if(INT1F==1 ||light_flag==1)
+        if(INT0_flag | light_flag)
         {
-            INT1F=0;
+            INT0_flag=0;
             light_flag=0;
             if(SYSTEM_ON==1)
             {
@@ -246,12 +251,26 @@ void main()
 }
 
 
-void Set_D1_RGB(char duty_cycle)
+void Set_D1_RGB(int duty_cycle)
 {
-   // add code from lab 12 for RGB D1
+    int num = duty_cycle / 10;
+    char arrayDC[8] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+    if (num > 7) {
+        num = 7;
+    }
+    PORTA = (PORTA & 0b11000111) | (arrayDC[num]<<3);
 }
 
 void Set_D2_RGB(int rpm)
 {
-   // add code from lab 12 for RGB D2
+    int test =  rpm / 514;
+    if(test > 7){
+        test = 7;
+    }
+    
+    char arrayRPM[8] = {0x00, 0x08, 0x10, 0x18, 0x20, 0x28, 0x30, 0x38};
+    PORTB = (PORTB & 0b11000111) | arrayRPM[test];
+        
+        
+    printf("test: %d\r\n", test);
 }

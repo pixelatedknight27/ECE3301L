@@ -144,9 +144,9 @@ void Increase_Time()
 
                 case 5:
                     setup_year++;
-                    if (setup_year == 100) setup_minute = 0;
+                    if (setup_year == 100) setup_year = 0;
                     // add code here to handle year increment - also check if new year is 100. If so, make it 0
-                    setup_year++;
+//                    setup_year++;
                     break;
 
                 default:
@@ -288,7 +288,7 @@ void Update_Setup_Time_Screen(void)
 	setup_date[4]  = (setup_day%10)  + '0';// add code here for day one;                         
     
 	setup_date[6]  = (setup_year/10)  + '0';// add code here for year ten ;                         
-    setup_date[7]  = (setup_year&10)  + '0';// add code here for year one;                         
+    setup_date[7]  = (setup_year%10)  + '0';// add code here for year one;                         
 
     drawtext(data_time_x, data_time_y, setup_time, ST7735_CYAN, ST7735_BLACK, TS_2);
     drawtext(data_date_x, data_date_y, setup_date, ST7735_GREEN, ST7735_BLACK, TS_2);

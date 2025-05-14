@@ -1,10 +1,10 @@
-void Set_D1_RGB(char duty_cycle);
+void Set_D1_RGB(int duty_cycle);
 void Set_D2_RGB(int rpm);
 
 #define _XTAL_FREQ      8000000
 
 #define Semester        2               // Type 0 for Sp, 1 for Fa
-#define Year            2025              // Type 2 digits year
+#define Year            25              // Type 2 digits year
 #define Session_Number  1               // Type Session Number 1 through 5
 #define Table_Number    3              // Type Table Number from 01 through 14
 

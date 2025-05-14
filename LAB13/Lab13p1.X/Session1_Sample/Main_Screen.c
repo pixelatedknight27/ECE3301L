@@ -173,7 +173,7 @@ void Update_Screen(void)
         {
             strcpy(Fan_Mode_Txt, "AUTO");
         }
-        else 
+        else    
         {
             strcpy(Fan_Mode_Txt, "MANU");
         }
@@ -189,17 +189,17 @@ void Update_Screen(void)
 
 
         DC_Txt[0] = duty_cycle/100  + '0';
-        DC_Txt[1] = duty_cycle % 100 / 10;  // add code here; 
-        DC_Txt[2] = duty_cycle % 10;        // add code here;   
+        DC_Txt[1] = duty_cycle % 100 / 10 + '0';  // add code here; 
+        DC_Txt[2] = duty_cycle % 10 + '0';        // add code here;   
 
         Volt_Txt[0] = ((int)  volt        ) + '0';
         Volt_Txt[2] = (( (int) (volt*10 ) )%10) + '0';
         Volt_Txt[3] = (( (int) (volt*100) )%10) + '0';
 
         RPM_Txt[0] = rpm/1000  + '0';
-        RPM_Txt[1] = rpm % 1000 / 100 ;     // add code here;  
-        RPM_Txt[2] = rpm % 100  / 10;       // add code here; 
-        RPM_Txt[3] = rpm % 10;              // add code here;           
+        RPM_Txt[1] = rpm % 1000 / 100 + '0';     // add code here;  
+        RPM_Txt[2] = rpm % 100  / 10 + '0';       // add code here; 
+        RPM_Txt[3] = rpm % 10 + '0';              // add code here;           
 
         drawtext(data_tempc_x, data_tempc_y, tempC_Txt , ST7735_YELLOW , ST7735_BLACK , TS_2);       
         drawtext(data_tempf_x, data_tempf_y, tempF_Txt , ST7735_YELLOW , ST7735_BLACK , TS_2);
